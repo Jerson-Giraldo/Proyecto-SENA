@@ -1,7 +1,7 @@
 <table border='1'>
   <thead>
     <tr>
-      <th>Nombre y apellido</th>
+      <th>Nombre</th>
       <th>Domicilio</th>
       <th>Teléfono</th>
       <th>Cumpleaños</th>
