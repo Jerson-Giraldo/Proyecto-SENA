@@ -12,9 +12,15 @@ async function clienteList()
       <td>${item.domicilio}</td>
       <td>${item.telefono}</td>
       <td>${item.cumpleaños}</td>
-
+      <td>
+      <a href="http://localhost/Proyecto-SENA/public/cliente/edit/?id=${item.id}" >
+      <button>Editar</button>
+      </a>
+      <button>Eliminar</button>
+      </td>
       </tr>`)
   });
-
 }
+}
+
 clienteList();

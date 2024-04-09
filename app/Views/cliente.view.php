@@ -1,3 +1,4 @@
+<a href=""><button>Nuevo</button></a>
 <table border='1'>
   <thead>
     <tr>

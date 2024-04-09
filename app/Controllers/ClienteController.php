@@ -16,6 +16,7 @@ class ClienteController extends Controller
 
   public function new()
   {
+    $this->render('clienteNew', [], 'site');
   }
 
   public function table()
@@ -33,6 +34,19 @@ class ClienteController extends Controller
 
   public function create()
   {
+    $res = new Result();
+    $postData = file_get_contents('php://input');
+    $body = json_decode('postData', true);
+    $this->clienteModel->insert([
+      'nombre' => $body['nombre'],
+      'domicilio' => $body['domicilio'],
+      'telefono' => $body['telefono'],
+      'cumpleaños' => $body['cumpleaños'],
+
+    ]);
+    $res->success = true;
+    $res->message = "El registro fue insertado correctamente";
+    echo json_encode($res);
   }
 
   public function update()
