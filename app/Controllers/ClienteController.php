@@ -30,6 +30,11 @@ class ClienteController extends Controller
 
   public function edit()
   {
+    $id = $_GET['id'];
+    $cliente = $this->clienteModel->getById($id);
+    $this->render('clienteNew', [
+      'cliente' => $cliente,
+    ], 'site');
   }
 
   public function create()
@@ -41,7 +46,7 @@ class ClienteController extends Controller
       'nombre' => $body['nombre'],
       'domicilio' => $body['domicilio'],
       'telefono' => $body['telefono'],
-      'cumpleaños' => $body['cumpleaños'],
+      'cumpleaños' => $body['cumpleanos'],
 
     ]);
     $res->success = true;
@@ -51,10 +56,31 @@ class ClienteController extends Controller
 
   public function update()
   {
+    $res = new Result();
+    $postData = file_get_contents('php://input');
+    $body = json_decode('postData', true);
+    $this->clienteModel->updateById($body['id'],[
+      'nombre' => $body['nombre'],
+      'domicilio' => $body['domicilio'],
+      'telefono' => $body['telefono'],
+      'cumpleaños' => $body['cumpleanos'],
+
+    ]);
+    $res->success = true;
+    $res->message = "El registro fue actualizado correctamente";
+    echo json_encode($res);
   }
 
   public function delete()
   {
+    $res = new Result();
+    $postData = file_get_contents('php://input');
+    $body = json_decode('postData', true);
+    $this->clienteModel->deleteById($body['id']);
+
+    $res->success = true;
+    $res->message = "El registro fue eliminado correctamente";
+    echo json_encode($res);
   }
 
   public function validateInput()
