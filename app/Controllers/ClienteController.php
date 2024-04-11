@@ -41,12 +41,12 @@ class ClienteController extends Controller
   {
     $res = new Result();
     $postData = file_get_contents('php://input');
-    $body = json_decode('postData', true);
+    $body = json_decode($postData, true);
     $this->clienteModel->insert([
       'nombre' => $body['nombre'],
       'domicilio' => $body['domicilio'],
       'telefono' => $body['telefono'],
-      'cumpleaños' => $body['cumpleanos'],
+      'cumpleanos' => $body['cumpleanos'],
 
     ]);
     $res->success = true;
@@ -58,7 +58,7 @@ class ClienteController extends Controller
   {
     $res = new Result();
     $postData = file_get_contents('php://input');
-    $body = json_decode('postData', true);
+    $body = json_decode($postData, true);
     $this->clienteModel->updateById($body['id'],[
       'nombre' => $body['nombre'],
       'domicilio' => $body['domicilio'],
@@ -75,7 +75,7 @@ class ClienteController extends Controller
   {
     $res = new Result();
     $postData = file_get_contents('php://input');
-    $body = json_decode('postData', true);
+    $body = json_decode($postData, true);
     $this->clienteModel->deleteById($body['id']);
 
     $res->success = true;
