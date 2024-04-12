@@ -59,12 +59,11 @@ class ClienteController extends Controller
     $res = new Result();
     $postData = file_get_contents('php://input');
     $body = json_decode($postData, true);
-    $this->clienteModel->updateById($body['id'],[
+    $this->clienteModel->updateById($body['id'], [
       'nombre' => $body['nombre'],
       'domicilio' => $body['domicilio'],
       'telefono' => $body['telefono'],
       'cumpleaños' => $body['cumpleanos'],
-
     ]);
     $res->success = true;
     $res->message = "El registro fue actualizado correctamente";

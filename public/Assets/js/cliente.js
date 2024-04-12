@@ -1,6 +1,6 @@
 async function clienteList()
 {
-  let reposense = await fetch('http://localhost/Proyecto-SENA/public/cliente/table');
+  let reposense = await fetch(URL_PATH + '/cliente/table');
   let reposenseData = await reposense.json();
   
   if(reposenseData.success)
@@ -14,7 +14,7 @@ async function clienteList()
       <td>${item.telefono}</td>
       <td>${item.cumpleanos}</td>
       <td>
-        <a href="http://localhost/Proyecto-SENA/public/cliente/edit/?id=${item.id}">
+        <a href="${URL_PATH}/cliente/edit/?id=${item.id}">
         <button>Editar</button>
         </a>
         <button onclick="eliminarCliente(${item.id})">Eliminar</button>
@@ -27,9 +27,9 @@ clienteList();
 
 async function eliminarCliente(id)
 {
-  let reposense = await fetch('http://localhost/Proyecto-SENA/public/cliente/delete', {
+  let reposense = await fetch(URL_PATH + '/cliente/delete', {
     method: 'DELETE',
-    body: JSON.stringify({id}),
+    body: JSON.stringify({ id }),
   });
   let reposenseData = await reposense.json();
   console.log(reposenseData);

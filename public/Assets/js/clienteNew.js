@@ -7,14 +7,14 @@ async function clienteFormularioSubmit()
 {
   let cliente = {};
   cliente.nombre = document.getElementById('nombre').value;
-  cliente.nombre = document.getElementById('domicilio').value;
-  cliente.nombre = document.getElementById('telefono').value;
-  cliente.nombre = document.getElementById('cumpleanos').value;
+  cliente.domicilio = document.getElementById('domicilio').value;
+  cliente.telefono = document.getElementById('telefono').value;
+  cliente.cumpleanos = document.getElementById('cumpleanos').value;
   cliente.id = document.getElementById('id').value;
 
   let ruta = cliente.id > 0 ? 'update' : 'create';
 
-  let reposense = await fetch('http://localhost/Proyecto-SENA/public/cliente/'+ ruta, {
+  let reposense = await fetch(URL_PATH + '/cliente/' + ruta, {
     method:'POST',
     body: JSON.stringify(cliente),
   });
