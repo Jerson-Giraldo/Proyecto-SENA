@@ -16,7 +16,7 @@ async function clienteFormularioSubmit()
 
   let reposense = await fetch(URL_PATH + '/cliente/' + ruta, {
     method:'POST',
-    body: JSON.stringify(cliente),
+    body: JSON.stringify({ cliente }),
   });
   let reposenseData = await reposense.json();  
   console.log(reposenseData);

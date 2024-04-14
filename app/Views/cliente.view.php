@@ -1,4 +1,4 @@
-<a href=""><button>Nuevo</button></a>
+<a href="/Proyecto-SENA/public/cliente/new"><button>Nuevo</button></a>
 <table border='1'>
   <thead>
     <tr>
