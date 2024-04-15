@@ -6,13 +6,15 @@ const BsModal =
     type = 'primary',
     confirm = 'true',
     icon = 'fa-regular fa-circle-question',
+    okText = 'Si', 
+    cancelText = 'No',
     onOk = ()=> {},
     onCancel = ()=> {}
   }) 
   {
     const uniqueId = document.querySelectorAll('.modal').lentgth + 1;
     const elemento = document.createElement('div');
-    const cancelBtnHtml = confirm ? `<button type="button" id="cancel${uniqueId}" class="btn btn-secondary" data-bs-dismiss="modal">No</button>` : '';
+    const cancelBtnHtml = confirm ? `<button type="button" id="cancel${uniqueId}" class="btn btn-secondary" data-bs-dismiss="modal">${cancelText}</button>` : '';
     elemento.innerHTML = `<div class="modal fade" id="staticBackdrop${uniqueId}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -22,7 +24,7 @@ const BsModal =
           <div>${content}</div>
           <div class="mt-5">
           ${cancelBtnHtml}
-            <button type="button" id="ok${uniqueId}" class="btn btn-${type}">Si</button>
+            <button type="button" id="ok${uniqueId}" class="btn btn-${type}">${okText}</button>
           </div>
         </div>
       </div>
@@ -52,5 +54,36 @@ const BsModal =
       elemento.remove();
     });
   },
-  
+  success(params)
+  {
+    this.confirm({
+      icon: 'fa-solid fa-check',
+      type: 'success',
+      confirm: false,
+      okText: 'Aceptar',
+      ...params
+    });
+  },
+
+  warning(params)
+  {
+    this.confirm({
+      icon: 'fa-solid fa-triangle-exclamation',
+      type: 'warning',
+      confirm: false,
+      okText: 'Aceptar',
+      ...params
+    });
+  },
+
+  danger(params)
+  {
+    this.confirm({
+      icon: 'fa-solid fa-bug',
+      type: 'danger',
+      confirm: false,
+      okText: 'Aceptar',
+      ...params
+    });
+  },
 }
