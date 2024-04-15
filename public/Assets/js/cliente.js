@@ -25,13 +25,18 @@ async function clienteList()
 }
 clienteList();
 
-async function eliminarCliente(id)
+function eliminarCliente(id)
 {
-  let reposense = await fetch(URL_PATH + '/cliente/delete', {
-    method: 'DELETE',
-    body: JSON.stringify({ id }),
-  });
-  let reposenseData = await reposense.json();
-  console.log(reposenseData);
-  clienteList();
+  BsModal.confirm({
+    title: '¿Esta seguro de eliminar este registro?',
+    onOk: async() =>{
+      let reposense = await fetch(URL_PATH + '/cliente/delete', {
+        method: 'DELETE',
+        body: JSON.stringify({ id }),
+      });
+      let reposenseData = await reposense.json();
+      console.log(reposenseData);
+      clienteList();
+    }
+  })
 }
