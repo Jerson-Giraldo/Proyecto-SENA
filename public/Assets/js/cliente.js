@@ -17,7 +17,7 @@ async function clienteList()
         <a href="${URL_PATH}/cliente/edit/?id=${item.id}">
         <button>Editar</button>
         </a>
-        <button onclick="eliminarCliente(${item.id})">Eliminar</button>
+        <button onClick="eliminarCliente(${item.id})">Eliminar</button>
       </td>
       </tr>`)
   });

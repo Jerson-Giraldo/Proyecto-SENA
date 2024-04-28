@@ -1,6 +1,6 @@
 const clienteFormulario = document.getElementById('clienteFormulario');
 clienteFormulario.addEventListener('submit', (e)=>{
-  e.preventDafault();//sirve para cancelar la funcionalidad por defecto del botón enviar
+  e.preventDefault();//sirve para cancelar la funcionalidad por defecto del botón enviar
   clienteFormularioSubmit();
 });
 async function clienteFormularioSubmit()

@@ -22,15 +22,15 @@ class ClienteController extends Controller
   public function table()
   {
     $res = new Result();
-    $clientes = $this->clienteModel->getAll('');
+    $cliente = $this->clienteModel->getAll('');
     $res->success = true;
-    $res->result = $clientes;
+    $res->result = $cliente;
     echo json_encode($res);
   }
 
   public function edit()
   {
-    $id = $_GET['id'];
+    $id = $_POST['id'];
     $cliente = $this->clienteModel->getById($id);
     $this->render('clienteNew', [
       'cliente' => $cliente,
