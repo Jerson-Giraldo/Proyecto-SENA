@@ -30,7 +30,7 @@ class ClienteController extends Controller
 
   public function edit()
   {
-    $id = $_POST['id'];
+    $id = $_GET['id'] ?? null;
     $cliente = $this->clienteModel->getById($id);
     $this->render('clienteNew', [
       'cliente' => $cliente,
