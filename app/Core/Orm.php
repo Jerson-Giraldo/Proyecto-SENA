@@ -1,10 +1,13 @@
 <?php
-
+/**Este ORM nos va a permitir hacer consultas y transacciones en la base de datos.
+ en este ORM debo crear una clase por cada tabla que tenga en la base de datos, estas clases van a heredar de la clase ORM
+ todos los métodos que esten en la clase ORM
+*/
 class Orm
 {
-  protected $id;
-  protected $table;
-  protected $db;
+  protected $id;// Esta propiedad va hacer para almacenar el identificador de la tabla
+  protected $table;// Esta propiedad va hacer para almacenar el nombre de la tabla
+  protected $db;// Esta propiedad va hacer para almacenar la conección de la base de datos para realizar consultas y transacciones
 
   public function __construct($id, $table, PDO $coneccion)
   {
@@ -13,7 +16,7 @@ class Orm
     $this->db = $coneccion;
   }
 
-  public function getAll($id)
+  public function getAll($id) //Para traer todos los registros de una tabla.
   {
     $stmt = $this->db->prepare("SELECT * FROM {$this->table}");
     $stmt->execute();
@@ -35,7 +38,7 @@ class Orm
     $stmt->execute();
   }
 
-  public function updateById($id, $data)
+  public function updateById($id, $data) //El párametro data nos sirve para pasar toda la información que queremos actualizar
   {
     $sql = "UPDATE {$this->table} SET";
     foreach ($data as $key => $value) {
