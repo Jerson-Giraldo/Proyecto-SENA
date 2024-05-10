@@ -1,5 +1,7 @@
 <?php
-require_once(__DIR__ . '/../Models/cliente.php');
+require_once(__DIR__ . '/../Models/cliente.php');/*Esta linea importa la definición de la calse cliente desde el archivo cliente.php
+que se encuentra en el directorio Models,asi que, 
+la clase Cliente es un modelo que interactua con la base de datos utilizando la clase ORM */
 
 class ClienteController extends Controller
 {
@@ -11,7 +13,9 @@ class ClienteController extends Controller
 
   public function home()
   {
-    $this->render('cliente', [], 'site');
+    $this->render('cliente', [], 'site');/*Con la función render estoy mostrando la vista cliente, 
+    [] con este array puedo pasar datos adicionales a la vista, en este caso no se estan pasando datos a la vista,
+    con el site indico el contexto o el área del sitio en el que se renderizará la vista*/
   }
 
   public function new()
@@ -21,11 +25,13 @@ class ClienteController extends Controller
 
   public function table()
   {
-    $res = new Result();
-    $cliente = $this->clienteModel->getAll('');
-    $res->success = true;
+    $res = new Result();//instanciación del objeto $res
+    $cliente = $this->clienteModel->getAll('');/*En la variable $cliente se almacena los registros de la consulta que se hace con getAll
+    y getAll se invoca con la propiedad clienteModel. La función getAll está en el archivo ORM, ahi encontramos las consultas en código sql*/
+    $res->success = true;/*Aqui por medio del objeto $res accedemos a las propiedades success y result de la clase Result()*/
     $res->result = $cliente;
-    echo json_encode($res);
+    echo json_encode($res);/*Aqui el resultado de la consulta a la base de datos se asigna a la propiedad result  del objeto $res
+    que se convierte en formato JSON y se imprime en la salida*/
   }
 
   public function edit()

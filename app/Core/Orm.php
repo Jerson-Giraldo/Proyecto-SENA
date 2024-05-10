@@ -16,16 +16,16 @@ class Orm
     $this->db = $coneccion;
   }
 
-  public function getAll($id) //Para traer todos los registros de una tabla.
+  public function getAll($id) //Para traer todos los registros de una tabla filtrados por un id.
   {
-    $stmt = $this->db->prepare("SELECT * FROM {$this->table}");
-    $stmt->execute();
+    $stmt = $this->db->prepare("SELECT * FROM {$this->table} where id= ?");
+    $stmt->execute([$id]);
     return $stmt->fetchAll();
   }
 
   public function getById($id)
   {
-    $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE id = :id");
+    $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE id = :id");//Esta es la sentencia sql
     $stmt->bindValue(":id", $id);
     $stmt->execute();
     return $stmt->fetch();
