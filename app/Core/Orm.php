@@ -48,18 +48,24 @@ class Orm
 
   public function updateById($id, $data) //El párametro data nos sirve para pasar toda la información que queremos actualizar
   {
-    $sql = "UPDATE {$this->table} SET";
-    foreach ($data as $key => $value) {
-      $sql .= "{$key} = :{$key},";
+    $sql = "UPDATE {$this->table} SET";/*Se construye la consulta sql de actualización en la variable sql para actualizar la tabla
+    con el nombre especificado ($this->table).*/
+    foreach ($data as $key => $value) {/*Se itera sobre el par clave-valor en el arreglo $data */
+      $sql .= "{$key} = :{$key},";/*Cada clave en el arreglo $data representa un nombre de columna, 
+      y su valor correspondiente representa el nuevo valor para esa columna en la base de datos. */
     }
-    $sql = trim($sql, ',');
-    $sql .= " WHERE id = :id";
-    $stmt = $this->db->prepare($sql);
-    foreach ($data as $key => $value) {
+
+    $sql = rtrim($sql, ',');// Elimina la coma adicional al final de la lista de columnas y valores
+    $sql .= " WHERE id = :id";// Se agrega la cláusula WHERE para actualizar la fila con el id especificado.
+    $stmt = $this->db->prepare($sql);//Prepara la consulta SQL utilizando el objeto de conexión a la base de datos ($this->db).
+    
+    foreach ($data as $key => $value) /*Itera sobre el arreglo $data nuevamente para vincular los valores a los marcadores de posición 
+    en la consulta preparada.*/
+    {
+      $stmt->bindValue(":{$key}", $value);// Vincula cada valor al marcador de posición correspondiente.
     }
-    $stmt->bindValue(":{$key}", $value);
-    $stmt->bindValue(":id", $id);
-    $stmt->execute();
+    $stmt->bindValue(":id", $id);//Vincula el valor del identificador (id) al marcador de posición correspondiente.
+    $stmt->execute();//Ejecuta la consulta SQL.
   }
 
   public function insert($data)
