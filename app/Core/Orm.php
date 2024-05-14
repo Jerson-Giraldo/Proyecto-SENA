@@ -5,7 +5,7 @@
 */
 class Orm
 {
-  protected $id;// Esta propiedad va hacer para almacenar el identificador de la tabla
+  protected $id;// Esta propiedad sirve para almacenar el identificador de la tabla
   protected $table;// Esta propiedad va hacer para almacenar el nombre de la tabla
   protected $db;// Esta propiedad va hacer para almacenar la conección de la base de datos para realizar consultas y transacciones
 
@@ -18,24 +18,32 @@ class Orm
 
   public function getAll($id) //Para traer todos los registros de una tabla filtrados por un id.
   {
-    $stmt = $this->db->prepare("SELECT * FROM {$this->table} where id= ?");
-    $stmt->execute([$id]);
-    return $stmt->fetchAll();
+    $stmt = $this->db->prepare("SELECT * FROM {$this->table} where id= ?");/*Prepara una consulta SQL utilizando prepare(), 
+    donde selecciona todos los campos (*) de la tabla representada por $this->table donde el ID coincide con el valor proporcionado.*/
+    $stmt->execute([$id]);/*Ejecuta la consulta utilizando execute([$id]), pasando el ID como un arreglo de parámetros. 
+    Esto ejecuta la consulta preparada con el ID proporcionado, lo que evitará la inyección SQL.*/
+    return $stmt->fetchAll();//fetchAll() para recuperar todas las filas que coinciden con el ID de la consulta y las devuelve como un arreglo de filas.
   }
 
   public function getById($id)
   {
-    $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE id = :id");//Esta es la sentencia sql
-    $stmt->bindValue(":id", $id);
-    $stmt->execute();
-    return $stmt->fetch();
+    $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE id = :id");/*Prepara una consulta sql para seleccionar 
+    todos los campos de la tabla donde el id coincida con el valor proporcionado*/
+    $stmt->bindValue(":id", $id);/*Vincula el valor del ID proporcionado al marcador de posición :id utilizando bindValue(":id", $id). 
+    Esto asegura que el valor del ID se trate correctamente y evita la inyección SQL*/
+    $stmt->execute();/*Ejecuta la consulta preparada utilizando execute(). Esto ejecuta la consulta con el valor del ID proporcionado.*/
+    return $stmt->fetch();/*Utiliza fetch() para recuperar la primera fila del resultado de la consulta como un arreglo asociativo que 
+    representa el registro de la tabla correspondiente al ID proporcionado y retorna el resultado.*/
   }
 
   public function deleteById($id)
   {
-    $stmt = $this->db->prepare("DELETE FROM {$this->table} WHERE id = :id");
-    $stmt->bindValue("id", $id);
-    $stmt->execute();
+    $stmt = $this->db->prepare("DELETE FROM {$this->table} WHERE id = :id");/*Se prepara la consulta sql para eliminar las filas de la tabla
+    representada por $this->table donde el id coincide con el valor proporcionado*/
+    $stmt->bindValue("id", $id);/*Vincula el valor del ID proporcionado al marcador de posición :id utilizando bindValue(":id", $id). 
+    Esto asegura que el valor del ID se trate correctamente y evita la inyección SQL.*/
+    $stmt->execute();/*Ejecuta la consulta preparada utilizando execute().Esto elimina las filas de la tabla que cumplen con la condición 
+    especificada (es decir, donde el ID coincide con el valor proporcionado).*/
   }
 
   public function updateById($id, $data) //El párametro data nos sirve para pasar toda la información que queremos actualizar

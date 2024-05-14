@@ -34,13 +34,16 @@ class ClienteController extends Controller
     que se convierte en formato JSON y se imprime en la salida*/
   }
 
-  public function edit()
+  public function edit()//Esta función se encarga de mostrar la vista para editar los detalles de un cliente específico.
   {
-    $id = $_GET['id'] ?? null;
-    $cliente = $this->clienteModel->getById($id);
-    $this->render('clienteNew', [
+    $id = $_GET['id'] ?? null;/*Obtiene el parámetro id de la URL a través de $_GET['id'].El operador ?? null se utiliza para
+    establecer id como nulo si no se proporciona ningún valor en la URL*/
+    $cliente = $this->clienteModel->getById($id);/*utiliza el método getById() del modelo de cliente ($this->clienteModel)
+    para obtener los detalles correspondiente al id proporcionado. NOTA: el modelo cliente hereda los métodos del ORM*/
+    $this->render('clienteNew', [/*Llama al método render para renderizar la vista de edición (clienteNew) se pasa un arreglo asociativo
+      que contiene los detalles del cliente bajo la clave cliente*/
       'cliente' => $cliente,
-    ], 'site');
+    ], 'site');//El tercer parámetro que es site, indica el contexto o área del sitio en el que se renderizará la vista.
   }
 
   public function create()
