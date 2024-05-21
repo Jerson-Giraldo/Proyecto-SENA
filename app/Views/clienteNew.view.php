@@ -1,4 +1,4 @@
-<form action="" id="clienteFormulario">
+<form action="ClienteController.php" method="POST" id="clienteFormulario">
   <input type="hidden" name="" id="id" value="<?= $parameters['cliente']['id'] ?? '0' ?>">
   <div>
     <label for="nombre">Nombre</label>
@@ -16,6 +16,6 @@
     <label for="cumpleanos">Cumpleaños</label>
     <input type="text" id="cumpleanos" value="<?= $parameters['cliente']['cumpleanos'] ?? '' ?>">
   </div>
-  <button type="submit">Guardar</button>
+  <button type="submit" value="Enviar">Guardar</button>
 </form>
 <script src="<?= URL_PATH ?>/Assets/js/clienteNew.js"></script>

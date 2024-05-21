@@ -48,9 +48,11 @@ class ClienteController extends Controller
 
   public function create()
   {
-    $res = new Result();
-    $postData = file_get_contents('php://input');
+    $res = new Result();/*Se crea un nuevo objeto de la clase Result. Esta clase se utiliza para estructurar 
+    la respuesta que se enviará al cliente.*/
+    $postData = file_get_contents('php://input');/* */
     $body = json_decode($postData, true);
+    
     $this->clienteModel->insert([
       'nombre' => $body['nombre'],
       'domicilio' => $body['domicilio'],

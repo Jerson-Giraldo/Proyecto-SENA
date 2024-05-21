@@ -18,7 +18,7 @@ class Orm
 
   public function getAll($id) //Para traer todos los registros de una tabla filtrados por un id.
   {
-    $stmt = $this->db->prepare("SELECT * FROM {$this->table} where id= ?");/*Prepara una consulta SQL utilizando prepare(), 
+    $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE id= ?");/*Prepara una consulta SQL utilizando prepare(), 
     donde selecciona todos los campos (*) de la tabla representada por $this->table donde el ID coincide con el valor proporcionado.*/
     $stmt->execute([$id]);/*Ejecuta la consulta utilizando execute([$id]), pasando el ID como un arreglo de parámetros. 
     Esto ejecuta la consulta preparada con el ID proporcionado, lo que evitará la inyección SQL.*/
@@ -68,18 +68,24 @@ class Orm
     $stmt->execute();//Ejecuta la consulta SQL.
   }
 
-  public function insert($data)
+  public function insert($data)/*El parametro data es un array asociativo donde la clave es el nombre de la columna y el valor 
+  son los datos que se quieren insertar en esas columnas de la tabla */
   {
     $sql = "INSERT INTO {$this->table} (";
-    foreach ($data as $key => $value) {
-      $sql .= "{$key},";
+    foreach ($data as $key => $value) {/*En cada iteración de este ciclo se agrega el nombre de una columna {$key}, seguido de una coma*/
+      $sql .= "{$key},";//La variable sql tiene un punto que es para concatenar la clave con una coma a la consulta.
     }
-    $sql = trim($sql, ',');
-    $sql .= ") VALUES(";
-    foreach ($data as $key => $value) {
-      $sql .= ":{$key},";
+    $sql = trim($sql, ',');/*trim($sql, ','): Después del ciclo, se utiliza trim para eliminar la coma final que queda al final 
+    de la lista de columnas.*/
+    $sql .= ") VALUES(";/*aqui la variable sql está concatenando values junto con el contenido actual de la variable sql.
+    ") VALUES(";: Estas son cadenas de texto. La primera es parte de la consulta SQL y representa el final de la lista de columnas 
+    en la declaración INSERT INTO. La segunda cadena representa el inicio de los valores que se insertarán en esas columnas.*/
+    foreach ($data as $key => $value) {/*Similar al primer ciclo, se agrega un placeholder para cada valor seguido de una coma.
+       Nota: un placeholder es un marcador de posición, en este caso seria ":{$key},"*/
+      $sql .= ":{$key},";//La variable sql tiene un punto que es para concatenar el placeholder con una coma a la consulta.
     }
-    $sql .= ")";
+    $sql = trim($sql, ',');/*De nuevo, después del ciclo, se elimina la coma final que queda al final de la lista de placeholders.*/
+    $sql .= ")";//fin de la consulta.
 
     $stmt = $this->db->prepare($sql);
     foreach ($data as $key => $value) {
