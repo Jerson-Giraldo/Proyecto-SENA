@@ -93,7 +93,7 @@ class ClienteController extends Controller
     echo json_encode($res);
   }
 
-  public function validateInput()
+ /* public function validateInput()
   {
-  }
+  }*/
 }

@@ -8,6 +8,8 @@
       <th>Cumpleaños</th>
     </tr>
   </thead>
-  <tbody id="clienteTableBody"></tbody>
+  <tbody id="clienteTableBody">
+    
+  </tbody>
 </table>
 <script src="<?= URL_PATH ?>/Assets/js/cliente.js"></script>

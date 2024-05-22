@@ -2,7 +2,7 @@ async function clienteList()
 {
   let reposense = await fetch(URL_PATH + '/cliente/table');
   let reposenseData = await reposense.json();
-  
+
   if(reposenseData.success)
   {
     const clienteTableBody = document.getElementById('clienteTableBody');

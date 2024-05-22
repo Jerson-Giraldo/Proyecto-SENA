@@ -16,13 +16,13 @@ class Orm
     $this->db = $coneccion;
   }
 
-  public function getAll($id) //Para traer todos los registros de una tabla filtrados por un id.
+  public function getAll() //Para traer todos los registros de una tabla sin aplicar ningun filtro
   {
-    $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE id= ?");/*Prepara una consulta SQL utilizando prepare(), 
-    donde selecciona todos los campos (*) de la tabla representada por $this->table donde el ID coincide con el valor proporcionado.*/
-    $stmt->execute([$id]);/*Ejecuta la consulta utilizando execute([$id]), pasando el ID como un arreglo de parámetros. 
-    Esto ejecuta la consulta preparada con el ID proporcionado, lo que evitará la inyección SQL.*/
-    return $stmt->fetchAll();//fetchAll() para recuperar todas las filas que coinciden con el ID de la consulta y las devuelve como un arreglo de filas.
+    $stmt = $this->db->prepare("SELECT * FROM {$this->table}");/*Prepara una consulta SQL utilizando prepare(), 
+    donde selecciona todos los campos (*) de la tabla */
+    $stmt->execute();/*Ejecuta la consulta utilizando execute() y la consulta se envia al servidor de la base de datos para su ejecución.*/
+    return $stmt->fetchAll();/*fetchAll() para recuperar todas las filas resultantes de la ejecución de la consulta y se devuelve como un array.
+    Este array contendrá todos los registros seleccionados de la tabla.*/
   }
 
   public function getById($id)
@@ -87,11 +87,18 @@ class Orm
     $sql = trim($sql, ',');/*De nuevo, después del ciclo, se elimina la coma final que queda al final de la lista de placeholders.*/
     $sql .= ")";//fin de la consulta.
 
-    $stmt = $this->db->prepare($sql);
-    foreach ($data as $key => $value) {
-      $stmt->bindValue(":{$key}", $value);
+    $stmt = $this->db->prepare($sql);/*Aqui se prepara la consulta sql para su ejecución.
+    La consulta preparada se crea utilizando el método prepare() 
+    de la conexión de base de datos $this->db y se pasa como parámetro el SQL almacenado en la variable $sql. */
+    foreach ($data as $key => $value) {/*Este ciclo recorre cada elemento del array $data. En cada iteración del ciclo $key tendra el valor
+      de la columna de la tabla y $value contendrá el valor que se quiere insertar en esa columna.*/
+      $stmt->bindValue(":{$key}", $value);/*Dentro del bucle foreach, se utiliza el método bindValue() para vincular cada valor de $value 
+      a su respectivo marcador de posición en la consulta preparada. Los marcadores de posición en la consulta están representados por 
+      :{$key}, donde $key es el nombre de la columna.*/
     }
-    $stmt->execute();
+    $stmt->execute();/*Después de haber vinculado todos los valores a la consulta preparada, se ejecuta la consulta utilizando el método 
+    execute(). Esto envía la consulta SQL al servidor de la base de datos para su ejecución, con los valores vinculados sustituyendo 
+    los marcadores de posición en la consulta.*/
   }
 
   public function paginate($page, $limit)
