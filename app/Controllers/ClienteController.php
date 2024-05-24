@@ -25,7 +25,7 @@ class ClienteController extends Controller
 
   public function table()
   {
-    $res = new Result();//instanciación del objeto $res
+    $res = new Result(); //instanciación del objeto $res
     $cliente = $this->clienteModel->getAll('');/*En la variable $cliente se almacena los registros de la consulta que se hace con getAll
     y getAll se invoca con la propiedad clienteModel. La función getAll está en el archivo ORM, ahi encontramos las consultas en código sql*/
     $res->success = true;/*Aqui por medio del objeto $res accedemos a las propiedades success y result de la clase Result()*/
@@ -34,7 +34,7 @@ class ClienteController extends Controller
     que se convierte en formato JSON y se imprime en la salida*/
   }
 
-  public function edit()//Esta función se encarga de mostrar la vista para editar los detalles de un cliente específico.
+  public function edit() //Esta función se encarga de mostrar la vista para editar los detalles de un cliente específico.
   {
     $id = $_GET['id'] ?? null;/*Obtiene el parámetro id de la URL a través de $_GET['id'].El operador ?? null se utiliza para
     establecer id como nulo si no se proporciona ningún valor en la URL*/
@@ -43,7 +43,7 @@ class ClienteController extends Controller
     $this->render('clienteNew', [/*Llama al método render para renderizar la vista de edición (clienteNew) se pasa un arreglo asociativo
       que contiene los detalles del cliente bajo la clave cliente*/
       'cliente' => $cliente,
-    ], 'site');//El tercer parámetro que es site, indica el contexto o área del sitio en el que se renderizará la vista.
+    ], 'site'); //El tercer parámetro que es site, indica el contexto o área del sitio en el que se renderizará la vista.
   }
 
   public function create()
@@ -52,7 +52,7 @@ class ClienteController extends Controller
     la respuesta que se enviará al cliente.*/
     $postData = file_get_contents('php://input');/* */
     $body = json_decode($postData, true);
-    
+
     $this->clienteModel->insert([
       'nombre' => $body['nombre'],
       'domicilio' => $body['domicilio'],
@@ -70,16 +70,24 @@ class ClienteController extends Controller
     $res = new Result();
     $postData = file_get_contents('php://input');
     $body = json_decode($postData, true);
-    $this->clienteModel->updateById($body['id'], [
-      'nombre' => $body['nombre'],
-      'domicilio' => $body['domicilio'],
-      'telefono' => $body['telefono'],
-      'cumpleaños' => $body['cumpleanos'],
-    ]);
-    $res->success = true;
-    $res->message = "El registro fue actualizado correctamente";
+
+    if (isset($body['id'], $body['nombre'], $body['domicilio'], $body['telefono'], $body['cumpleanos'])) {
+      $this->clienteModel->updateById($body['id'], [
+        'nombre' => $body['nombre'],
+        'domicilio' => $body['domicilio'],
+        'telefono' => $body['telefono'],
+        'cumpleanos' => $body['cumpleanos'],
+      ]);
+      $res->success = true;
+      $res->message = "El registro fue actualizado correctamente";
+    } else {
+      $res->success = false;
+      $res->message = "Datos insuficientes para actualizar el registro";
+    }
+
     echo json_encode($res);
   }
+
 
   public function delete()
   {
@@ -93,7 +101,7 @@ class ClienteController extends Controller
     echo json_encode($res);
   }
 
- /* public function validateInput()
+  /* public function validateInput()
   {
   }*/
 }
