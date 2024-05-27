@@ -68,6 +68,7 @@ class ClienteController extends Controller
   public function update()
   {
     $res = new Result();
+    try {
     $postData = file_get_contents('php://input');
     $body = json_decode($postData, true);
 
@@ -84,7 +85,10 @@ class ClienteController extends Controller
       $res->success = false;
       $res->message = "Datos insuficientes para actualizar el registro";
     }
-
+  } catch(exception $e){
+    $res->success = false;
+    $res->message = "Error al actualizar el registro: " .$e->getMessage();  
+  }
     echo json_encode($res);
   }
 

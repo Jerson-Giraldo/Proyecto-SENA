@@ -46,27 +46,31 @@ class Orm
     especificada (es decir, donde el ID coincide con el valor proporcionado).*/
   }
 
-  public function updateById($id, $data) //El párametro data nos sirve para pasar toda la información que queremos actualizar
-  {
-    $sql = "UPDATE {$this->table} SET";/*Se construye la consulta sql de actualización en la variable sql para actualizar la tabla
-    con el nombre especificado ($this->table).*/
-    foreach ($data as $key => $value) {/*Se itera sobre el par clave-valor en el arreglo $data */
-      $sql .= "{$key} = :{$key},";/*Cada clave en el arreglo $data representa un nombre de columna, 
-      y su valor correspondiente representa el nuevo valor para esa columna en la base de datos. */
+  public function updateById($id, $data) {
+    $sql = "UPDATE {$this->table} SET ";
+    foreach ($data as $key => $value) {
+        $sql .= "{$key} = :{$key}, ";
     }
-
-    $sql = rtrim($sql, ',');// Elimina la coma adicional al final de la lista de columnas y valores
-    $sql .= " WHERE id = :id";// Se agrega la cláusula WHERE para actualizar la fila con el id especificado.
-    $stmt = $this->db->prepare($sql);//Prepara la consulta SQL utilizando el objeto de conexión a la base de datos ($this->db).
+    $sql = rtrim($sql, ', ');
+    $sql .= " WHERE id = :id";
     
-    foreach ($data as $key => $value) /*Itera sobre el arreglo $data nuevamente para vincular los valores a los marcadores de posición 
-    en la consulta preparada.*/
-    {
-      $stmt->bindValue(":{$key}", $value);// Vincula cada valor al marcador de posición correspondiente.
+    $stmt = $this->db->prepare($sql);
+    
+    foreach ($data as $key => $value) {
+        $stmt->bindValue(":{$key}", $value);
     }
-    $stmt->bindValue(":id", $id);//Vincula el valor del identificador (id) al marcador de posición correspondiente.
-    $stmt->execute();//Ejecuta la consulta SQL.
-  }
+    $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+    
+    $debugSql = $sql;
+    foreach ($data as $key => $value) {
+        $debugSql = str_replace(":{$key}", "'$value'", $debugSql);
+    }
+    $debugSql = str_replace(":id", "'$id'", $debugSql);
+    error_log("Executing SQL: $debugSql"); 
+    
+    $stmt->execute();
+}
+
 
   public function insert($data)/*El parametro data es un array asociativo donde la clave es el nombre de la columna y el valor 
   son los datos que se quieren insertar en esas columnas de la tabla */
