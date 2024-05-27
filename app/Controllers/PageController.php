@@ -4,32 +4,31 @@ class PageController extends Controller
 {
   public function __construct(PDO $coneccion)
   {
-
   }
-  
+
   public function home()
   {
-    $this->render('home', [],'site');
+    $this->render('home', [], 'site');
   }
-  
+
   public function listar()
   {
-    $this->render('listar', [],'site');
+    $this->render('listar', [], 'site');
   }
 
   public function modificar()
   {
-    $this->render('modificar', [],'site');
+    $this->render('modificar', [], 'site');
   }
 
   public function nuevo()
   {
-    $this->render('nuevo', [],'site');
+    $this->render('nuevo', [], 'site');
   }
 
   public function eliminar()
   {
-    $this->render('eliminar', [],'site');
+    $this->render('eliminar', [], 'site');
   }
 }
 /**La ruta URL va a ser de la siguiente manera: http://localhost/page/listar

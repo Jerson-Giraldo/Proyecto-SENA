@@ -12,11 +12,12 @@ class Router
 
   public function matchRouter()
   {
-    $url = explode('/', URL); /**Esta función me separa una cadena de texto por medio de un separador '/' y 
+    $url = explode('/', URL);
+    /**Esta función me separa una cadena de texto por medio de un separador '/' y 
     como segundo párametro se coloca la constante global URL que se escribió en el archivo config.php*/
     //Luego asignamos el controlador y el método
     $this->controller = !empty($url[1]) ? $url[1] : 'Page'; //El controlador se encuentra en la posición 1 de la variable $url y si esta vacio el controlador por defecto es page
-    $this->method = !empty($url[2]) ? $url[2] : 'home';//El método se encuentra en la posición 2 de la variable $url y si esta vacio el método por defecto es home
+    $this->method = !empty($url[2]) ? $url[2] : 'home'; //El método se encuentra en la posición 2 de la variable $url y si esta vacio el método por defecto es home
     $this->controller = $this->controller . 'Controller'; //hay que recordar de contoller vale en este caso page y se concatena con controller y su valor final es pageController
     require_once(__DIR__ . '/Controllers/' . $this->controller . '.php'); //Requiriendo el archivo pageController colocando $this->controller que vale pageController
   }

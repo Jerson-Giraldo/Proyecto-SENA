@@ -1,5 +1,5 @@
 <?php
-class Cliente extends Orm//la clase Cliente es un modelo que interactua con la base de datos utilizando la clase ORM
+class Cliente extends Orm //la clase Cliente es un modelo que interactua con la base de datos utilizando la clase ORM
 {
   public function __construct(PDO $coneccion) //El constructor toma el objeto PDO como parámetro de conexión a la base de datos
   {

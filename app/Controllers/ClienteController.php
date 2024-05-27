@@ -69,26 +69,26 @@ class ClienteController extends Controller
   {
     $res = new Result();
     try {
-    $postData = file_get_contents('php://input');
-    $body = json_decode($postData, true);
+      $postData = file_get_contents('php://input');
+      $body = json_decode($postData, true);
 
-    if (isset($body['id'], $body['nombre'], $body['domicilio'], $body['telefono'], $body['cumpleanos'])) {
-      $this->clienteModel->updateById($body['id'], [
-        'nombre' => $body['nombre'],
-        'domicilio' => $body['domicilio'],
-        'telefono' => $body['telefono'],
-        'cumpleanos' => $body['cumpleanos'],
-      ]);
-      $res->success = true;
-      $res->message = "El registro fue actualizado correctamente";
-    } else {
+      if (isset($body['id'], $body['nombre'], $body['domicilio'], $body['telefono'], $body['cumpleanos'])) {
+        $this->clienteModel->updateById($body['id'], [
+          'nombre' => $body['nombre'],
+          'domicilio' => $body['domicilio'],
+          'telefono' => $body['telefono'],
+          'cumpleanos' => $body['cumpleanos'],
+        ]);
+        $res->success = true;
+        $res->message = "El registro fue actualizado correctamente";
+      } else {
+        $res->success = false;
+        $res->message = "Datos insuficientes para actualizar el registro";
+      }
+    } catch (exception $e) {
       $res->success = false;
-      $res->message = "Datos insuficientes para actualizar el registro";
+      $res->message = "Error al actualizar el registro: " . $e->getMessage();
     }
-  } catch(exception $e){
-    $res->success = false;
-    $res->message = "Error al actualizar el registro: " .$e->getMessage();  
-  }
     echo json_encode($res);
   }
 

@@ -1,13 +1,14 @@
 <?php
+
 /**Este ORM nos va a permitir hacer consultas y transacciones en la base de datos.
  en este ORM debo crear una clase por cada tabla que tenga en la base de datos, estas clases van a heredar de la clase ORM
  todos los métodos que esten en la clase ORM
-*/
+ */
 class Orm
 {
-  protected $id;// Esta propiedad sirve para almacenar el identificador de la tabla
-  protected $table;// Esta propiedad va hacer para almacenar el nombre de la tabla
-  protected $db;// Esta propiedad va hacer para almacenar la conección de la base de datos para realizar consultas y transacciones
+  protected $id; // Esta propiedad sirve para almacenar el identificador de la tabla
+  protected $table; // Esta propiedad va hacer para almacenar el nombre de la tabla
+  protected $db; // Esta propiedad va hacer para almacenar la conección de la base de datos para realizar consultas y transacciones
 
   public function __construct($id, $table, PDO $coneccion)
   {
@@ -46,30 +47,23 @@ class Orm
     especificada (es decir, donde el ID coincide con el valor proporcionado).*/
   }
 
-  public function updateById($id, $data) {
+  public function updateById($id, $data)
+  {
     $sql = "UPDATE {$this->table} SET ";
     foreach ($data as $key => $value) {
-        $sql .= "{$key} = :{$key}, ";
+      $sql .= "{$key} = :{$key}, ";
     }
     $sql = rtrim($sql, ', ');
     $sql .= " WHERE id = :id";
-    
+
     $stmt = $this->db->prepare($sql);
-    
+
     foreach ($data as $key => $value) {
-        $stmt->bindValue(":{$key}", $value);
+      $stmt->bindValue(":{$key}", $value);
     }
     $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-    
-    $debugSql = $sql;
-    foreach ($data as $key => $value) {
-        $debugSql = str_replace(":{$key}", "'$value'", $debugSql);
-    }
-    $debugSql = str_replace(":id", "'$id'", $debugSql);
-    error_log("Executing SQL: $debugSql"); 
-    
     $stmt->execute();
-}
+  }
 
 
   public function insert($data)/*El parametro data es un array asociativo donde la clave es el nombre de la columna y el valor 
@@ -77,7 +71,7 @@ class Orm
   {
     $sql = "INSERT INTO {$this->table} (";
     foreach ($data as $key => $value) {/*En cada iteración de este ciclo se agrega el nombre de una columna {$key}, seguido de una coma*/
-      $sql .= "{$key},";//La variable sql tiene un punto que es para concatenar la clave con una coma a la consulta.
+      $sql .= "{$key},"; //La variable sql tiene un punto que es para concatenar la clave con una coma a la consulta.
     }
     $sql = trim($sql, ',');/*trim($sql, ','): Después del ciclo, se utiliza trim para eliminar la coma final que queda al final 
     de la lista de columnas.*/
@@ -86,10 +80,10 @@ class Orm
     en la declaración INSERT INTO. La segunda cadena representa el inicio de los valores que se insertarán en esas columnas.*/
     foreach ($data as $key => $value) {/*Similar al primer ciclo, se agrega un placeholder para cada valor seguido de una coma.
        Nota: un placeholder es un marcador de posición, en este caso seria ":{$key},"*/
-      $sql .= ":{$key},";//La variable sql tiene un punto que es para concatenar el placeholder con una coma a la consulta.
+      $sql .= ":{$key},"; //La variable sql tiene un punto que es para concatenar el placeholder con una coma a la consulta.
     }
     $sql = trim($sql, ',');/*De nuevo, después del ciclo, se elimina la coma final que queda al final de la lista de placeholders.*/
-    $sql .= ")";//fin de la consulta.
+    $sql .= ")"; //fin de la consulta.
 
     $stmt = $this->db->prepare($sql);/*Aqui se prepara la consulta sql para su ejecución.
     La consulta preparada se crea utilizando el método prepare() 
