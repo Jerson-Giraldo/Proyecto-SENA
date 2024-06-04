@@ -13,3 +13,4 @@ class Result
     $this->message = '';
   }
 }
+/*Aqui en Helpers almacenamos las funciones que nos van a servir en toda la aplicación*/

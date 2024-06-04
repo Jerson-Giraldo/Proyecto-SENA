@@ -10,3 +10,4 @@ class Controller
     require_once(__DIR__ . '/../Views/layouts/' . $layout . '.layout.php');
   }
 }
+/*Todos los archivos de esta carpeta son archivos principales que van a ser utilizados en controller, models y views */
