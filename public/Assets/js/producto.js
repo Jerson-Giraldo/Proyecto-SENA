@@ -1,13 +1,13 @@
 async function productoList()
 {
-  let reposense = await fetch(URL_PATH + '/producto/table');
-  let reposenseData = await reposense.json();
+  let response = await fetch(URL_PATH + '/producto/table');
+  let responseData = await response.json();
 
-  if(reposenseData.success)
+  if(responseData.success)
   {
     const productoTableBody = document.getElementById('productoTableBody');
     productoTableBody.innerHTML = '';
-      reposenseData.result.forEach(item => {
+    responseData.result.forEach(item => {
         productoTableBody.insertAdjacentHTML('beforeend', `<tr>
       <td>${item.nombre}</td>
       <td>${item.tipo_producto}</td>
@@ -22,11 +22,11 @@ async function productoList()
       <td>${item.comentarios_producto}</td>
       <td>
         <a href="${URL_PATH}/producto/edit/?id=${item.id}">
-        <button>Editar</button>
+        <button type="button">Editar</button>
         </a>
         <button onClick="eliminarProducto(${item.id})">Eliminar</button>
       </td>
-      </tr>`)
+      </tr>`);
   });
 }
 }
@@ -37,12 +37,12 @@ function eliminarProducto(id)
   BsModal.confirm({
     title: '¿Esta seguro de eliminar este registro?',
     onOk: async() =>{
-      let reposense = await fetch(URL_PATH + '/producto/delete', {
+      let response = await fetch(URL_PATH + '/producto/delete', {
         method: 'DELETE',
         body: JSON.stringify({ id }),
       });
-      let reposenseData = await reposense.json();
-      console.log(reposenseData);
+      let responseData = await response.json();
+      console.log(responseData);
       productoList();
     }
   })

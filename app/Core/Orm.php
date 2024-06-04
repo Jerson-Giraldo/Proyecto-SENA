@@ -28,7 +28,7 @@ class Orm
 
   public function getById($id)
   {
-    $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE id = :id");/*Prepara una consulta sql para seleccionar 
+    $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE idproducto = :id");/*Prepara una consulta sql para seleccionar 
     todos los campos de la tabla donde el id coincida con el valor proporcionado*/
     $stmt->bindValue(":id", $id);/*Vincula el valor del ID proporcionado al marcador de posición :id utilizando bindValue(":id", $id). 
     Esto asegura que el valor del ID se trate correctamente y evita la inyección SQL*/
@@ -39,7 +39,7 @@ class Orm
 
   public function deleteById($id)
   {
-    $stmt = $this->db->prepare("DELETE FROM {$this->table} WHERE id = :id");/*Se prepara la consulta sql para eliminar las filas de la tabla
+    $stmt = $this->db->prepare("DELETE FROM {$this->table} WHERE idproducto = :id");/*Se prepara la consulta sql para eliminar las filas de la tabla
     representada por $this->table donde el id coincide con el valor proporcionado*/
     $stmt->bindValue("id", $id);/*Vincula el valor del ID proporcionado al marcador de posición :id utilizando bindValue(":id", $id). 
     Esto asegura que el valor del ID se trate correctamente y evita la inyección SQL.*/
@@ -54,7 +54,7 @@ class Orm
       $sql .= "{$key} = :{$key}, ";
     }
     $sql = rtrim($sql, ', ');
-    $sql .= " WHERE id = :id";
+    $sql .= " WHERE idproducto = :id";
 
     $stmt = $this->db->prepare($sql);
 

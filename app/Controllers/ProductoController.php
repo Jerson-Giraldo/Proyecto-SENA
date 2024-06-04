@@ -36,10 +36,10 @@ class ProductoController extends Controller
 
   public function edit() //Esta función se encarga de mostrar la vista para editar los detalles de un cliente específico.
   {
-    $id = $_GET['id'] ?? null;/*Obtiene el parámetro id de la URL a través de $_GET['id'].El operador ?? null se utiliza para
+    $id = $_GET['idproducto'] ?? null;/*Obtiene el parámetro id de la URL a través de $_GET['id'].El operador ?? null se utiliza para
     establecer id como nulo si no se proporciona ningún valor en la URL*/
-    $producto = $this->productoModel->getById($id);/*utiliza el método getById() del modelo de cliente ($this->clienteModel)
-    para obtener los detalles correspondiente al id proporcionado. NOTA: el modelo cliente hereda los métodos del ORM*/
+    $producto = $this->productoModel->getById($id);/*utiliza el método getById() del modelo de producto ($this->productoModel)
+    para obtener los detalles correspondiente al id proporcionado. NOTA: el modelo producto hereda los métodos del ORM*/
     $this->render('productoNew', [/*Llama al método render para renderizar la vista de edición (productoNew) se pasa un arreglo asociativo
       que contiene los detalles del cliente bajo la clave cliente*/
       'producto' => $producto,
