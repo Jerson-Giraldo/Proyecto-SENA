@@ -6,7 +6,7 @@ productoFormulario.addEventListener('submit', (e) => {
 
 async function productoFormularioSubmit() {
     let producto = {};
-    producto.id = document.getElementById('id').value;
+    producto.idproducto = document.getElementById('idproducto').value;
     producto.nombre = document.getElementById('nombre').value;
     producto.tipo_producto = document.getElementById('tipo_producto').value;
     producto.ubicacion = document.getElementById('ubicacion').value;
@@ -16,10 +16,10 @@ async function productoFormularioSubmit() {
     producto.fecha_ingreso = document.getElementById('fecha_ingreso').value;
     producto.fecha_salida = document.getElementById('fecha_salida').value;
     producto.precio = document.getElementById('precio').value;
-    producto.detalles_de_factura = document.getElementById('detalles_de_factura').value;
+    producto.detalles_de_factura_iddetalles_de_factura = document.getElementById('detalles_de_factura_iddetalles_de_factura').value;
     producto.comentarios_producto = document.getElementById('comentarios_producto').value;
 
-    let ruta = producto.id > 0 ? 'update' : 'create';
+    let ruta = producto.idproducto > 0 ? 'update' : 'create';
 
     try {
         let response = await fetch(`${URL_PATH}/producto/${ruta}`, {

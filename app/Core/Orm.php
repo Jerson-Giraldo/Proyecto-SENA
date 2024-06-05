@@ -41,7 +41,7 @@ class Orm
   {
     $stmt = $this->db->prepare("DELETE FROM {$this->table} WHERE idproducto = :id");/*Se prepara la consulta sql para eliminar las filas de la tabla
     representada por $this->table donde el id coincide con el valor proporcionado*/
-    $stmt->bindValue("id", $id);/*Vincula el valor del ID proporcionado al marcador de posición :id utilizando bindValue(":id", $id). 
+    $stmt->bindValue(":id", $id);/*Vincula el valor del ID proporcionado al marcador de posición :id utilizando bindValue(":id", $id). 
     Esto asegura que el valor del ID se trate correctamente y evita la inyección SQL.*/
     $stmt->execute();/*Ejecuta la consulta preparada utilizando execute().Esto elimina las filas de la tabla que cumplen con la condición 
     especificada (es decir, donde el ID coincide con el valor proporcionado).*/

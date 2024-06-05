@@ -13,7 +13,7 @@ class ProductoController extends Controller
 
   public function home()
   {
-    $this->render('producto', [], 'site');/*Con la función render estoy mostrando la vista cliente, 
+    $this->render('producto', [], 'site');/*Con la función render estoy mostrando la vista producto, 
     [] con este array puedo pasar datos adicionales a la vista, en este caso no se estan pasando datos a la vista,
     con el site indico el contexto o el área del sitio en el que se renderizará la vista*/
   }
@@ -26,8 +26,8 @@ class ProductoController extends Controller
   public function table()
   {
     $res = new Result(); //instanciación del objeto $res
-    $producto = $this->productoModel->getAll('');/*En la variable $cliente se almacena los registros de la consulta que se hace con getAll
-    y getAll se invoca con la propiedad clienteModel. La función getAll está en el archivo ORM, ahi encontramos las consultas en código sql*/
+    $producto = $this->productoModel->getAll('');/*En la variable $producto se almacena los registros de la consulta que se hace con getAll
+    y getAll se invoca con la propiedad productoModel. La función getAll está en el archivo ORM, ahi encontramos las consultas en código sql*/
     $res->success = true;/*Aqui por medio del objeto $res accedemos a las propiedades success y result de la clase Result()*/
     $res->result = $producto;
     echo json_encode($res);/*Aqui el resultado de la consulta a la base de datos se asigna a la propiedad result  del objeto $res
@@ -63,7 +63,7 @@ class ProductoController extends Controller
       'fecha_ingreso' => $body['fecha_ingreso'],
       'fecha_salida' => $body['fecha_salida'],
       'precio' => $body['precio'],
-      'detalles_de_factura' => $body['detalles_de_factura'],
+      'detalles_de_factura_iddetalles_de_factura' => $body['detalles_de_factura_iddetalles_de_factura'],
       'comentarios_producto' => $body['comentarios_producto'],
 
     ]);
@@ -79,8 +79,8 @@ class ProductoController extends Controller
       $postData = file_get_contents('php://input');
       $body = json_decode($postData, true);
 
-      if (isset($body['id'], $body['nombre'], $body['tipo_producto'], $body['ubicacion'], $body['cantidad_stock'], $body['codigo_barras'], $body['lote'], $body['fecha_ingreso'], $body['fecha_salida'], $body['precio'], $body['detalles_de_factura'], $body['comentarios_producto'])) {
-        $this->productoModel->updateById($body['id'], [
+      if (isset($body['idproducto'], $body['nombre'], $body['tipo_producto'], $body['ubicacion'], $body['cantidad_stock'], $body['codigo_barras'], $body['lote'], $body['fecha_ingreso'], $body['fecha_salida'], $body['precio'], $body['detalles_de_factura_iddetalles_de_factura'], $body['comentarios_producto'])) {
+        $this->productoModel->updateById($body['idproducto'], [
           'nombre' => $body['nombre'],
           'tipo_producto' => $body['tipo_producto'],
           'ubicacion' => $body['ubicacion'],
@@ -90,7 +90,7 @@ class ProductoController extends Controller
           'fecha_ingreso' => $body['fecha_ingreso'],
           'fecha_salida' => $body['fecha_salida'],
           'precio' => $body['precio'],
-          'detalles_de_factura' => $body['detalles_de_factura'],
+          'detalles_de_factura_iddetalles_de_factura' => $body['detalles_de_factura_iddetalles_de_factura'],
           'comentarios_producto' => $body['comentarios_producto'],
         ]);
         $res->success = true;
@@ -99,7 +99,7 @@ class ProductoController extends Controller
         $res->success = false;
         $res->message = "Datos insuficientes para actualizar el registro";
       }
-    } catch (exception $e) {
+    } catch (Exception $e) {
       $res->success = false;
       $res->message = "Error al actualizar el registro: " . $e->getMessage();
     }
@@ -112,7 +112,7 @@ class ProductoController extends Controller
     $res = new Result();
     $postData = file_get_contents('php://input');
     $body = json_decode($postData, true);
-    $this->productoModel->deleteById($body['id']);
+    $this->productoModel->deleteById($body['idproducto']);
 
     $res->success = true;
     $res->message = "El registro fue eliminado correctamente";

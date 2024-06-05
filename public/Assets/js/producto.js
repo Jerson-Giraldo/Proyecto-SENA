@@ -18,13 +18,13 @@ async function productoList()
       <td>${item.fecha_ingreso}</td>
       <td>${item.fecha_salida}</td>
       <td>${item.precio}</td>
-      <td>${item.detalles_de_factura}</td>
+      <td>${item.detalles_de_factura_iddetalles_de_factura}</td>
       <td>${item.comentarios_producto}</td>
       <td>
-        <a href="${URL_PATH}/producto/edit/?id=${item.id}">
+        <a href="${URL_PATH}/producto/edit/?idproducto=${item.idproducto}">
         <button type="button">Editar</button>
         </a>
-        <button onClick="eliminarProducto(${item.id})">Eliminar</button>
+        <button onClick="eliminarProducto(${item.idproducto})">Eliminar</button>
       </td>
       </tr>`);
   });
@@ -32,14 +32,14 @@ async function productoList()
 }
 productoList();
 
-function eliminarProducto(id)
+function eliminarProducto(idproducto)
 {
   BsModal.confirm({
     title: '¿Esta seguro de eliminar este registro?',
     onOk: async() =>{
       let response = await fetch(URL_PATH + '/producto/delete', {
         method: 'DELETE',
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({ idproducto }),
       });
       let responseData = await response.json();
       console.log(responseData);
