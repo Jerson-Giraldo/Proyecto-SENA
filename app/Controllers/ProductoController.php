@@ -23,7 +23,7 @@ class ProductoController extends Controller
     $this->render('productoNew', [], 'site');
   }
 
-  public function table()
+  public function table() /*Con esta función imprimimos la tabla de la base de datos en formato JSON*/
   {
     $res = new Result(); //instanciación del objeto $res
     $producto = $this->productoModel->getAll('');/*En la variable $producto se almacena los registros de la consulta que se hace con getAll
@@ -50,7 +50,7 @@ class ProductoController extends Controller
   {
     $res = new Result();/*Se crea un nuevo objeto de la clase Result. Esta clase se utiliza para estructurar 
     la respuesta que se enviará al cliente.*/
-    $postData = file_get_contents('php://input');
+    $postData = file_get_contents('php://input');//Con esta función traemos la información que enviamos de javascript
     $body = json_decode($postData, true);
 
     $this->productoModel->insert([
