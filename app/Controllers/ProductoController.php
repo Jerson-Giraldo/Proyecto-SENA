@@ -41,7 +41,7 @@ class ProductoController extends Controller
     $producto = $this->productoModel->getById($id);/*utiliza el método getById() del modelo de producto ($this->productoModel)
     para obtener los detalles correspondiente al id proporcionado. NOTA: el modelo producto hereda los métodos del ORM*/
     $this->render('productoNew', [/*Llama al método render para renderizar la vista de edición (productoNew) se pasa un arreglo asociativo
-      que contiene los detalles del cliente bajo la clave cliente*/
+      que contiene los detalles del producto bajo la clave producto*/
       'producto' => $producto,
     ], 'site'); //El tercer parámetro que es site, indica el contexto o área del sitio en el que se renderizará la vista.
   }

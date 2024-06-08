@@ -7,3 +7,4 @@ $url = substr($urlPath, strlen($folderPath));
 
 define('URL', $url); //constante global URL para almacenar la variable $url
 define('URL_PATH', $folderPath);
+define('NOMBRE_SITIO', 'Software-CICLO');

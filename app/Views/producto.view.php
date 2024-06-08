@@ -1,9 +1,8 @@
-<a href="/Proyecto-SENA/public/producto/new">
-  <button type="button">Nuevo</button>
-</a>
-<table border='1'>
-  <thead>
-    <tr>
+
+<div class="table-responsive-md">
+<table class="table table-striped">
+  <thead class="table-dark">
+  <tr>
       <th>Nombre</th>
       <th>Tipo_producto</th>
       <th>Ubicación</th>
@@ -18,7 +17,10 @@
     </tr>
   </thead>
   <tbody id="productoTableBody">
-
+  <a href="/Proyecto-SENA/public/producto/new">
+  <button type="button">Nuevo</button>
+</a>
   </tbody>
 </table>
+</div>
 <script src="<?= URL_PATH ?>/Assets/js/producto.js"></script>
