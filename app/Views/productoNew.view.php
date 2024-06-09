@@ -1,4 +1,4 @@
-<form action="ProductoController.php" method="POST" id="productoFormulario">
+<form action="ProductoController.php" method="POST" id="productoFormulario" class="formulario-producto d-flex flex-column">
   <input type="hidden" name="idproducto" id="idproducto" value="<?= $parameters['producto']['idproducto'] ?? '0' ?>">
   <div>
     <label for="nombre">Nombre</label>
