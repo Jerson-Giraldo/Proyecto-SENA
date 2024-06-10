@@ -54,7 +54,10 @@ h1{
 }
 
 .tablas-generales{
-  margin-top: 80px;
+  border-radius: 30px;
+  border: 2px solid gainsboro;
+  padding: 20px;
+  margin: 70px;
   
 }
 /*Fin estilos generales*/

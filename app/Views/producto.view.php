@@ -1,7 +1,7 @@
 
-<div class="table-responsive-md tablas-generales container-fluid ">
-<table class="table table-striped table-bordered table table-sm">
-  <thead class="table-dark ">
+<div class="table-responsive tablas-generales">
+<table class="table table-striped table-bordered table-hover text-center">
+  <thead class="table-dark text-center">
   <tr>
       <th>Nombre</th>
       <th>Tipo_producto</th>
@@ -22,5 +22,5 @@
 </a>
   </tbody>
 </table>
-<!--</div>-->
+</div>
 <script src="<?= URL_PATH ?>/Assets/js/producto.js"></script>
