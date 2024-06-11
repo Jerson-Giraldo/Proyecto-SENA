@@ -1,4 +1,3 @@
-
 <div class="table-responsive tablas-generales">
 <table class="table table-striped table-bordered table-hover text-center">
   <thead class="table-dark text-center">

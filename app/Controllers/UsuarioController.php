@@ -10,9 +10,6 @@ class UsuarioController extends Controller
 
   public function home()
   {
-    $usuarios = $this->usuarioModel->getAll('');
-    echo '<pre>';
-    var_dump($usuarios);
-    echo '</pre>';
+    $this->render('registrarse', [], 'site');
   }
 }

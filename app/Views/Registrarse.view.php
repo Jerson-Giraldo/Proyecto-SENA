@@ -5,8 +5,8 @@
               <h2 class="text-center seccion-titulo">Bienvenido</h2>
             </div>
             <div class="col-12 col-md-4">
-            <label class="form-label">Correo electrónico</label>
-            <input type="email" class="form-control" placeholder="email@example.com">
+            <label class="form-label">Nombre usuario</label>
+            <input type="text" class="form-control" placeholder="pedrito.giraldo">
           </div>
           <div class="col-12 col-md-4">
             <label class="form-label">Contraseña</label>

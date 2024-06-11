@@ -38,12 +38,9 @@ class ProductoController extends Controller
   {
     $id = $_GET['idproducto'] ?? null;/*Obtiene el parámetro id de la URL a través de $_GET['id'].El operador ?? null se utiliza para
     establecer id como nulo si no se proporciona ningún valor en la URL*/
-    $producto = $this->productoModel->getById($id);/*utiliza el método getById() del modelo de producto ($this->productoModel)
+    $producto = $this->productoModel->getById($id, 'idproducto');/*utiliza el método getById() del modelo de producto ($this->productoModel)
     para obtener los detalles correspondiente al id proporcionado. NOTA: el modelo producto hereda los métodos del ORM*/
-    $this->render('productoNew', [/*Llama al método render para renderizar la vista de edición (productoNew) se pasa un arreglo asociativo
-      que contiene los detalles del producto bajo la clave producto*/
-      'producto' => $producto,
-    ], 'site'); //El tercer parámetro que es site, indica el contexto o área del sitio en el que se renderizará la vista.
+    $this->render('productoNew', ['producto' => $producto,], 'site'); /*Llama al método render para renderizar la vista de edición (productoNew) se pasa un arreglo asociativo que contiene los detalles del producto bajo la clave producto, el tercer parámetro que es site, indica el contexto o área del sitio en el que se renderizará la vista.*/
   }
 
   public function create()
@@ -92,7 +89,7 @@ class ProductoController extends Controller
           'precio' => $body['precio'],
           'detalles_de_factura_iddetalles_de_factura' => $body['detalles_de_factura_iddetalles_de_factura'],
           'comentarios_producto' => $body['comentarios_producto'],
-        ]);
+        ], 'idproducto');// Especificando 'idproducto' como columna de identificación
         $res->success = true;
         $res->message = "El registro fue actualizado correctamente";
       } else {
@@ -112,7 +109,7 @@ class ProductoController extends Controller
     $res = new Result();
     $postData = file_get_contents('php://input');
     $body = json_decode($postData, true);
-    $this->productoModel->deleteById($body['idproducto']);
+    $this->productoModel->deleteById($body['idproducto'], 'idproducto');// Especificando 'idproducto' como columna de identificación
 
     $res->success = true;
     $res->message = "El registro fue eliminado correctamente";
