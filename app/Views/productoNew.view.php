@@ -1,4 +1,4 @@
-<form action="ProductoController.php" method="POST" id="productoFormulario" class="formulario-producto d-flex flex-column align-items-center justify-content-center">
+<!--<form action="ProductoController.php" method="POST" id="productoFormulario" class="formulario-producto d-flex flex-column align-items-center justify-content-center">
   <input type="hidden" name="idproducto" id="idproducto" value="<?= $parameters['producto']['idproducto'] ?? '0' ?>">
   <div class="col-12 col-md-4">
     <label class="form-label" for="nombre">Nombre</label>
@@ -48,4 +48,4 @@
     <button type="submit" class="btn btn-primary" value="guardar">Guardar</button>
   </div>
 </form>
-<script src="<?= URL_PATH ?>/Assets/js/productoNew.js"></script>
+<script src="<?= URL_PATH ?>/Assets/js/productoNew.js"></script>-->

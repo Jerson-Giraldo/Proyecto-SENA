@@ -1,4 +1,4 @@
-const facturaFormulario = document.getElementById('facturaFormulario');
+/*const facturaFormulario = document.getElementById('facturaFormulario');
 facturaFormulario.addEventListener('submit', (e) => {
     e.preventDefault(); // Cancela la funcionalidad por defecto del botón enviar
     facturaFormularioSubmit();
@@ -27,4 +27,4 @@ async function facturaFormularioSubmit() {
     } catch (error) {
         console.error('Error:', error);
     }
-}
+}*/

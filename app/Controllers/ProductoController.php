@@ -62,7 +62,6 @@ class ProductoController extends Controller
       'precio' => $body['precio'],
       'detalles_de_factura_iddetalles_de_factura' => $body['detalles_de_factura_iddetalles_de_factura'],
       'comentarios_producto' => $body['comentarios_producto'],
-
     ]);
     $res->success = true;
     $res->message = "El registro fue insertado correctamente";

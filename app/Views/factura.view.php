@@ -3,7 +3,7 @@
   <thead class="table-dark text-center">
   <tr>
       <th>Fecha</th>
-      <th>Cliente</th>
+      <th>Tipo_Cliente</th>
       <th>Auxiliar</th>
     </tr>
   </thead>

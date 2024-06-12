@@ -5,7 +5,7 @@
     <input class="form-control" type="date" id="fecha" name="fecha" value="<?= $parameters['factura']['fecha'] ?? '' ?>">
   </div>
   <div class="col-12 col-md-4">
-    <label class="form-label" for="cliente_idtable1">Cliente</label>
+    <label class="form-label" for="cliente_idtable1">Tipo_Cliente</label>
     <input class="form-control" type="text" id="cliente_idtable1" name="cliente_idtable1" value="<?= $parameters['factura']['cliente_idtable1'] ?? '' ?>">
   </div>
   <div class="col-12 col-md-4">

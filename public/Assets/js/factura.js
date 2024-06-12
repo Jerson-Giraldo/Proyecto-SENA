@@ -1,4 +1,4 @@
-async function facturaList()
+/*async function facturaList()
 {
   let response = await fetch(URL_PATH + '/factura/table');
   let responseData = await response.json();
@@ -7,8 +7,9 @@ async function facturaList()
   {
     const facturaTableBody = document.getElementById('facturaTableBody');
     facturaTableBody.innerHTML = '';
-    responseData.result.forEach(item => {
-        facturaTableBody.insertAdjacentHTML('beforeend', `<tr>
+      responseData.result.forEach(item => {
+        facturaTableBody.insertAdjacentHTML('beforeend', 
+      `<tr>
       <td>${item.fecha}</td>
       <td>${item.cliente_idtable1}</td>
       <td>${item.auxiliar_idusuarios}</td>
@@ -20,7 +21,7 @@ async function facturaList()
       </td>
       </tr>`);
   });
-}
+  }
 }
 facturaList();
 
@@ -38,4 +39,4 @@ function eliminarFactura(idfactura)
       facturaList();
     }
   })
-}
+}*/

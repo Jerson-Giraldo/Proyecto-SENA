@@ -1,4 +1,4 @@
-<div class="table-responsive tablas-generales">
+<!--<div class="table-responsive tablas-generales">
 <table class="table table-striped table-bordered table-hover text-center">
   <thead class="table-dark text-center">
   <tr>
@@ -22,4 +22,19 @@
   </tbody>
 </table>
 </div>
-<script src="<?= URL_PATH ?>/Assets/js/producto.js"></script>
+<script src="<?= URL_PATH ?>/Assets/js/producto.js"></script>-->
+
+<!-- Plantilla del formulario genérico -->
+<template id="formulario-generico">
+  <form class="formulario-generico">
+    <!-- Los campos específicos se llenarán dinámicamente -->
+  </form>
+</template>
+
+<!-- Plantilla de la tabla genérica -->
+<template id="tabla-generica">
+  <table class="tabla-generica">
+    <!-- Las columnas específicas se llenarán dinámicamente -->
+  </table>
+</template>
+

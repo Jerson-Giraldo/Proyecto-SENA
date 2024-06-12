@@ -1,4 +1,4 @@
-const productoFormulario = document.getElementById('productoFormulario');
+/*const productoFormulario = document.getElementById('productoFormulario');
 productoFormulario.addEventListener('submit', (e) => {
     e.preventDefault(); // Cancela la funcionalidad por defecto del botón enviar
     productoFormularioSubmit();
@@ -35,4 +35,4 @@ async function productoFormularioSubmit() {
     } catch (error) {
         console.error('Error:', error);
     }
-}
+}*/
