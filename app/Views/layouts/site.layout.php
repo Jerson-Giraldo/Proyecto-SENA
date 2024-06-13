@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <!-- Metadatos -->
   <meta charset="UTF-8">
@@ -26,10 +25,7 @@
     var URL_PATH = '<?= URL_PATH ?>'; //Esta variable tiene el valor de '/Proyecto-SENA/public'
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-
 </head>
-
 <body>
   <!-- Barra de navegación -->
   <nav class="navbar bg-dark navbar-expand-lg navbar-static fixed-top" data-bs-theme="dark">
@@ -109,6 +105,6 @@
   <!-- Fin footer-->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="<?= URL_PATH ?>/Assets/js/scripts.js"></script>
+  <script src="<?= URL_PATH ?>/Assets/js/main.js"></script>
 </body>
-
 </html>
