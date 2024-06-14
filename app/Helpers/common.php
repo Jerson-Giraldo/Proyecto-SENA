@@ -3,7 +3,7 @@ class Result {
     public $result;
     public $success;
     public $message;
-    public $structure; // Declaración explícita de la propiedad
+    public $structure; 
 
     public function __construct() {
         $this->result;
