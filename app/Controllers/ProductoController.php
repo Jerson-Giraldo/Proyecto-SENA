@@ -47,7 +47,7 @@ class ProductoController extends Controller
   {
     $res = new Result();/*Se crea un nuevo objeto de la clase Result. Esta clase se utiliza para estructurar 
     la respuesta que se enviará al cliente.*/
-    $postData = file_get_contents('php://input');//Con esta función traemos la información que enviamos de javascript
+    $postData = file_get_contents('php://input'); //Con esta función traemos la información que enviamos de javascript
     $body = json_decode($postData, true);
 
     $this->productoModel->insert([
@@ -88,7 +88,7 @@ class ProductoController extends Controller
           'precio' => $body['precio'],
           'detalles_de_factura_iddetalles_de_factura' => $body['detalles_de_factura_iddetalles_de_factura'],
           'comentarios_producto' => $body['comentarios_producto'],
-        ], 'idproducto');// Especificando 'idproducto' como columna de identificación
+        ], 'idproducto'); // Especificando 'idproducto' como columna de identificación
         $res->success = true;
         $res->message = "El registro fue actualizado correctamente";
       } else {
@@ -108,7 +108,7 @@ class ProductoController extends Controller
     $res = new Result();
     $postData = file_get_contents('php://input');
     $body = json_decode($postData, true);
-    $this->productoModel->deleteById($body['idproducto'], 'idproducto');// Especificando 'idproducto' como columna de identificación
+    $this->productoModel->deleteById($body['idproducto'], 'idproducto'); // Especificando 'idproducto' como columna de identificación
 
     $res->success = true;
     $res->message = "El registro fue eliminado correctamente";
@@ -116,21 +116,21 @@ class ProductoController extends Controller
   }
 
   public function structure()
-{
+  {
     $res = new Result(); // Crear una instancia del objeto Resultado
 
     try {
-        $columns = $this->productoModel->getTableColumns(); // Obtener las columnas de la tabla
+      $columns = $this->productoModel->getTableColumns(); // Obtener las columnas de la tabla
 
-        if (is_array($columns)) {
-            $res->success = true;
-            $res->structure = $columns; // Asignar las columnas al atributo 'structure'
-        } else {
-            throw new Exception("La función getTableColumns() no devolvió un array válido.");
-        }
+      if (is_array($columns)) {
+        $res->success = true;
+        $res->structure = $columns; // Asignar las columnas al atributo 'structure'
+      } else {
+        throw new Exception("La función getTableColumns() no devolvió un array válido.");
+      }
     } catch (Exception $e) {
-        $res->success = false;
-        $res->message = "Error al obtener la estructura de la tabla: " . $e->getMessage();
+      $res->success = false;
+      $res->message = "Error al obtener la estructura de la tabla: " . $e->getMessage();
     }
 
     // Establecer la cabecera Content-Type para JSON
@@ -138,8 +138,5 @@ class ProductoController extends Controller
 
     // Codificar el objeto $res como JSON y mostrarlo
     echo json_encode($res);
-}
-
-  
-  
+  }
 }
