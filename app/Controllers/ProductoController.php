@@ -114,4 +114,32 @@ class ProductoController extends Controller
     $res->message = "El registro fue eliminado correctamente";
     echo json_encode($res);
   }
+
+  public function structure()
+{
+    $res = new Result(); // Crear una instancia del objeto Resultado
+
+    try {
+        $columns = $this->productoModel->getTableColumns(); // Obtener las columnas de la tabla
+
+        if (is_array($columns)) {
+            $res->success = true;
+            $res->structure = $columns; // Asignar las columnas al atributo 'structure'
+        } else {
+            throw new Exception("La función getTableColumns() no devolvió un array válido.");
+        }
+    } catch (Exception $e) {
+        $res->success = false;
+        $res->message = "Error al obtener la estructura de la tabla: " . $e->getMessage();
+    }
+
+    // Establecer la cabecera Content-Type para JSON
+    header('Content-Type: application/json');
+
+    // Codificar el objeto $res como JSON y mostrarlo
+    echo json_encode($res);
+}
+
+  
+  
 }

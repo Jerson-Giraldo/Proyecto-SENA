@@ -1,4 +1,4 @@
-<form action="FacturaController.php" method="POST" id="facturaFormulario" class="formulario-producto d-flex flex-column align-items-center justify-content-center">
+<!--<form action="FacturaController.php" method="POST" id="facturaFormulario" class="formulario-producto d-flex flex-column align-items-center justify-content-center">
   <input type="hidden" name="idfactura" id="idfactura" value="<?= $parameters['factura']['idfactura'] ?? '0' ?>">
   <div class="col-12 col-md-4">
     <label class="form-label" for="fecha">Fecha</label>
@@ -33,4 +33,4 @@
   </tbody>
 </table>
 </div>
-<script src="<?= URL_PATH ?>/Assets/js/main.js"></script>
+<script src="<?= URL_PATH ?>/Assets/js/main.js"></script>-->

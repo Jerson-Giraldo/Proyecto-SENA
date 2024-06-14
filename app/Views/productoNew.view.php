@@ -34,7 +34,7 @@
   </div>
   <div class="col-12 col-md-4">
     <label class="form-label" for="precio">Precio</label>
-    <input class="form-control type="text" id="precio" name="precio" value="<?= $parameters['producto']['precio'] ?? '' ?>">
+    <input class="form-control" type="text" id="precio" name="precio" value="<?= $parameters['producto']['precio'] ?? '' ?>">
   </div>
   <div class="col-12 col-md-4">
     <label class="form-label" for="detalles_de_factura_iddetalles_de_factura">Detalles_de_factura</label>
