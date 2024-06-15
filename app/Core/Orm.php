@@ -1,59 +1,50 @@
 <?php
-
 /**Este ORM nos va a permitir hacer consultas y transacciones en la base de datos.
  en este ORM debo crear una clase por cada tabla que tenga en la base de datos, estas clases van a heredar de la clase ORM
  todos los métodos que esten en la clase ORM
  */
 class Orm
 {
-  protected $id; // Esta propiedad sirve para almacenar el identificador de la tabla
-  protected $table; // Esta propiedad va hacer para almacenar el nombre de la tabla
-  protected $db; // Esta propiedad va hacer para almacenar la conección de la base de datos para realizar consultas y transacciones
+  protected $idColumn; // Almacena el nombre de la columna de identificación
+  protected $table; // Almacena el nombre de la tabla
+  protected $db; // Almacena la conexión de la base de datos
 
-  public function __construct($id, $table, PDO $coneccion)
+  public function __construct($table, $idColumn = 'id', PDO $connection)
   {
-    $this->id = $id;
     $this->table = $table;
-    $this->db = $coneccion;
+    $this->idColumn = $idColumn;
+    $this->db = $connection;
   }
 
-  public function getAll() //Para traer todos los registros de una tabla sin aplicar ningun filtro
+  public function getAll()
   {
-    $stmt = $this->db->prepare("SELECT * FROM {$this->table}");/*Prepara una consulta SQL utilizando prepare(), 
-    donde selecciona todos los campos (*) de la tabla */
-    $stmt->execute();/*Ejecuta la consulta utilizando execute() y la consulta se envia al servidor de la base de datos para su ejecución.*/
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);/*fetchAll() para recuperar todas las filas resultantes de la ejecución de la consulta y se devuelve como un array.
-    Este array contendrá todos los registros seleccionados de la tabla.*/
+    $stmt = $this->db->prepare("SELECT * FROM {$this->table}");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function getById($id, $idColumn = 'id')
+  public function getById($id)
   {
-    $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE {$idColumn} = :id");/*Prepara una consulta sql para seleccionar 
-    todos los campos de la tabla donde el id coincida con el valor proporcionado*/
-    $stmt->bindValue(":id", $id, PDO::PARAM_INT);/*Vincula el valor del ID proporcionado al marcador de posición :id utilizando bindValue(":id", $id). 
-    Esto asegura que el valor del ID se trate correctamente y evita la inyección SQL*/
-    $stmt->execute();/*Ejecuta la consulta preparada utilizando execute(). Esto ejecuta la consulta con el valor del ID proporcionado.*/
-    return $stmt->fetch(PDO::FETCH_ASSOC);/*Utiliza fetch() para recuperar la primera fila del resultado de la consulta como un arreglo asociativo que 
-    representa el registro de la tabla correspondiente al ID proporcionado y retorna el resultado.*/
+    $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE {$this->idColumn} = :id");
+    $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
-  public function deleteById($id, $idColumn = 'id')
+  public function deleteById($id)
   {
-    $stmt = $this->db->prepare("DELETE FROM {$this->table} WHERE {$idColumn} = :id");/*Se prepara la consulta sql para eliminar las filas de la tabla
-    representada por $this->table donde el id coincide con el valor proporcionado*/
-    $stmt->bindValue(":id", $id, PDO::PARAM_INT);/*Vincula el valor del ID proporcionado al marcador de posición :id utilizando bindValue(":id", $id). 
-    Esto asegura que el valor del ID se trate correctamente y evita la inyección SQL.*/
-    $stmt->execute();/*Ejecuta la consulta preparada utilizando execute().Esto elimina las filas de la tabla que cumplen con la condición 
-    especificada (es decir, donde el ID coincide con el valor proporcionado).*/
+    $stmt = $this->db->prepare("DELETE FROM {$this->table} WHERE {$this->idColumn} = :id");
+    $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+    $stmt->execute();
   }
 
-  public function updateById($id, $data, $idColumn = 'id')
+  public function updateById($id, $data)
   {
     $sql = "UPDATE {$this->table} SET ";
     foreach ($data as $key => $value) {
       $sql .= "{$key} = :{$key}, ";
     }
-    $sql = rtrim($sql, ', ') . " WHERE {$idColumn} = :id";
+    $sql = rtrim($sql, ', ') . " WHERE {$this->idColumn} = :id";
 
     $stmt = $this->db->prepare($sql);
 
@@ -63,7 +54,6 @@ class Orm
     $stmt->bindValue(":id", $id, PDO::PARAM_INT);
     $stmt->execute();
   }
-
 
   public function insert($data)
   {
@@ -100,4 +90,11 @@ class Orm
       'rows' => $rows
     ];
   }
+
+  public function getTableColumns()
+    {
+        $stmt = $this->db->prepare("DESCRIBE {$this->table}");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

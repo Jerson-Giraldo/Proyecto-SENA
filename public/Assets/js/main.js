@@ -48,11 +48,11 @@ function eliminarProducto(idproducto)
     }
   })
 }*/
-
+console.log('Archivo main.js cargado.');
 // Asegúrate de que este código se ejecute después de que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
   // Aquí va tu código JavaScript
-
+  console.log('Script cargado y DOM completamente cargado.');
   // Ejemplo de código dentro del event listener
   const dynamicForm = document.getElementById('dynamicForm');
   if (dynamicForm) {
