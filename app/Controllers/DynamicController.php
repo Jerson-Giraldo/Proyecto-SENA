@@ -7,14 +7,14 @@ class DynamicController extends Controller
 {
   private $model;
 
-  public function __construct(PDO $coneccion, string $tableName, string $idColumn = 'id') 
+  public function __construct(PDO $coneccion, string $tableName, string $idColumn = 'id')
   {
     $this->model = new Orm($tableName, $idColumn, $coneccion);
   }
 
   public function home()
   {
-    $this->render('form', [], 'site');/*Con la función render estoy mostrando la vista producto, 
+    $this->render('table', [], 'site');/*Con la función render estoy mostrando la vista producto, 
     [] con este array puedo pasar datos adicionales a la vista, en este caso no se estan pasando datos a la vista,
     con el site indico el contexto o el área del sitio en el que se renderizará la vista*/
   }
