@@ -1,4 +1,5 @@
 console.log('Archivo main.js cargado.');
+
 // Asegúrate de que este código se ejecute después de que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Script cargado y DOM completamente cargado.');
@@ -8,9 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Ajustar el href del botón "Nuevo" dinámicamente
     const newButtonLink = document.getElementById('newButtonLink');
     if (newButtonLink) {
-        newButtonLink.setAttribute('href', `/Proyecto-SENA/public/${tableName}/new`);
+        newButtonLink.setAttribute('href', `${URL_PATH}/${tableName}/new`);
     } else {
         console.error('El elemento newButtonLink no se encontró en el DOM.');
+        return; // Sal del script si newButtonLink no existe
     }
 
     // Event listener para el botón "Nuevo"
@@ -41,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function fetchTableData(tableName) {
     try {
-        let response = await fetch(`${URL_PATH}/${tableName}/table`);
+        let response = await fetch(`${URL_PATH}/Dynamic/table/${tableName}`);
         let responseData = await response.json();
 
         if (responseData.success) {
@@ -126,7 +128,7 @@ async function submitForm() {
 
 async function fetchTableStructure(tableName) {
     try {
-        let response = await fetch(`${URL_PATH}/${tableName}/structure`);
+        let response = await fetch(`${URL_PATH}/Dynamic/structure/${tableName}`);
         let responseData = await response.json();
 
         if (responseData.success) {

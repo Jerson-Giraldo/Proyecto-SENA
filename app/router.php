@@ -30,9 +30,24 @@ class Router
                 $method = $this->method;
 
                 if (method_exists($controller, $method)) {
+                    // Llamar al método del controlador
                     $controller->$method();
                 } else {
-                    echo "Método {$method} no encontrado en el controlador {$this->controller}.";
+                    // Aquí es donde manejarías las rutas específicas
+                    switch ($method) {
+                        case 'new':
+                        case 'table':    
+                        case 'edit':
+                        case 'create':
+                        case 'update':
+                        case 'delete':
+                        case 'structure':    
+                            $controller->$method();
+                            break;
+                        default:
+                            echo "Método {$method} no encontrado en el controlador {$this->controller}.";
+                            break;
+                    }
                 }
             } else {
                 echo "Clase {$controllerClass} no encontrada.";
