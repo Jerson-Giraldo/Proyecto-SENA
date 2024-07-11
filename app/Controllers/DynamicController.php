@@ -6,22 +6,24 @@ la clase Producto es un modelo que interactua con la base de datos utilizando la
 class DynamicController extends Controller
 {
   private $model;
+  private $tableName; // Variable para almacenar el nombre de la tabla
 
   public function __construct(PDO $coneccion, string $tableName, string $idColumn = 'id')
   {
     $this->model = new Orm($tableName, $idColumn, $coneccion);
+    $this->tableName = $tableName; // Asignar el nombre de la tabla a la propiedad
   }
 
   public function home()
   {
-    $this->render('table', [], 'site');/*Con la función render estoy mostrando la vista producto, 
-    [] con este array puedo pasar datos adicionales a la vista, en este caso no se estan pasando datos a la vista,
+    $this->render('table', ['tableName' => $this->tableName], 'site');/*Con la función render estoy mostrando la vista table, 
+    [] con este array puedo pasar datos adicionales a la vista,
     con el site indico el contexto o el área del sitio en el que se renderizará la vista*/
   }
 
   public function new()
   {
-    $this->render('formNew', [], 'site');
+    $this->render('formNew', ['tableName' => $this->tableName], 'site');
   }
 
   public function table() /*Con esta función imprimimos la tabla de la base de datos en formato JSON*/
@@ -40,7 +42,7 @@ class DynamicController extends Controller
     $id = $_GET['id'] ?? null;
     $item = $this->model->getById($id);
 
-    $this->render('formNew', ['item' => $item], 'site');
+    $this->render('formNew', ['tableName' => $this->tableName, 'item' => $item], 'site');
   }
 
   public function create()

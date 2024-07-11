@@ -27,6 +27,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
+  
   <!-- Barra de navegación -->
   <nav class="navbar bg-dark navbar-expand-lg navbar-static fixed-top" data-bs-theme="dark">
     <div class="container-fluid">
@@ -56,9 +57,11 @@
     </div>
   </nav>
   <!-- Fin barra de navegación -->
+
   <!--Vistas-->
   <?php echo $content; ?>
   <!--Fin vistas-->
+
   <!-- Contacto -->
   <section id="contacto" class="contacto seccion-oscura">
     <div class="container">
@@ -83,6 +86,7 @@
     </div>
   </section>
   <!-- Fin contacto -->
+
   <!-- Footer-->
   <footer class="seccion-oscura d-flex flex-column align-items-center justify-content-center">
     <img class="footer-logo rounded-circle" src="<?= URL_PATH ?>/Assets/images/Logo-CICLO.jpg" alt="Logo-footer">
@@ -103,6 +107,7 @@
     <div class="derechos-de-autor">Creado por Jerson Giraldo (2023) &#169;</div>
   </footer>
   <!-- Fin footer-->
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="<?= URL_PATH ?>/Assets/js/main.js"></script>
   <script src="<?= URL_PATH ?>/Assets/js/scripts.js"></script>
