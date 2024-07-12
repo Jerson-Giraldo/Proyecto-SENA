@@ -3,6 +3,7 @@ class Router
 {
     private $controller;
     private $method;
+    private $params = []; // Añadido para capturar los parámetros
 
     public function __construct()
     {
@@ -14,7 +15,14 @@ class Router
         $url = explode('/', URL);
         $this->controller = !empty($url[1]) ? $url[1] : 'Page';
         $this->method = !empty($url[2]) ? $url[2] : 'home';
-        $this->controller = ucfirst($this->controller); // Mantener el nombre del controlador como viene en la URL
+        $this->params = array_slice($url, 3); // Captura el resto de los parámetros de la URL
+
+        // Depuración
+        echo "Controller: " . $this->controller . "<br>";
+        echo "Method: " . $this->method . "<br>";
+        echo "Params: " . implode(', ', $this->params) . "<br>";
+
+        $this->controller = ucfirst($this->controller);
         $controllerFile = __DIR__ . '/Controllers/' . $this->controller . 'Controller.php';
 
         if (file_exists($controllerFile)) {
@@ -23,10 +31,11 @@ class Router
             $database = new Database();
             $connection = $database->getConnection();
 
-            $controllerClass = $this->controller . 'Controller'; // Asegurarse de usar el nombre correcto
+            $controllerClass = $this->controller . 'Controller';
 
             if (class_exists($controllerClass)) {
-                $controller = new $controllerClass($connection, strtolower($this->controller));
+                // Pasar el nombre del controlador y los parámetros
+                $controller = new $controllerClass($connection, $this->params[0] ?? 'default'); // Usa el primer parámetro como el nombre de la tabla
                 $method = $this->method;
 
                 if (method_exists($controller, $method)) {
@@ -62,3 +71,4 @@ class Router
         $this->matchRouter();
     }
 }
+

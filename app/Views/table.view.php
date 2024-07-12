@@ -1,12 +1,16 @@
+<input type="hidden" id="tableName" value="<?= $tableName ?>">
 <div class="table-responsive tablas-generales">
   <table class="table table-striped table-bordered table-hover text-center">
-    <thead class="table-dark text-center">
+    
+  <thead class="table-dark text-center">
       <!--Aqui se crean los encabezados de las columnas -->
       <tr id="dynamicTableHeaders"></tr>
     </thead>
+    
     <tbody id="<?= $tableName ?>TableBody">
       <!-- Este es el cuerpo de la tabla donde se insertarán las filas de datos. -->
     </tbody>
+
   </table>
 </div>
 
