@@ -56,7 +56,11 @@ class Orm
   }
 
   public function insert($data)
-  {
+{
+    if (!is_array($data) || empty($data)) {
+        throw new InvalidArgumentException('Los datos proporcionados para insertar no son válidos.');
+    }
+
     $columns = implode(', ', array_keys($data));
     $placeholders = ':' . implode(', :', array_keys($data));
 
@@ -64,11 +68,11 @@ class Orm
     $stmt = $this->db->prepare($sql);
 
     foreach ($data as $key => $value) {
-      $stmt->bindValue(":{$key}", $value);
+        $stmt->bindValue(":{$key}", $value);
     }
 
     $stmt->execute();
-  }
+}
 
   public function paginate($page, $limit)
   {

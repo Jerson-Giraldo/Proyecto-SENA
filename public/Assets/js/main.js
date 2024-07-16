@@ -1,44 +1,44 @@
 console.log('Archivo main.js cargado.');
 
-// Asegúrate de que este código se ejecute después de que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Script cargado y DOM completamente cargado.');
 
-    const tableName = document.getElementById('tableName').value; // Asegúrate de que este elemento existe y tiene el valor correcto
+    const tableNameInput = document.getElementById('tableName');
+    if (tableNameInput) {
+        const tableName = tableNameInput.value;
 
-    // Ajustar el href del botón "Nuevo" dinámicamente
-    const newButtonLink = document.getElementById('newButtonLink');
-    if (newButtonLink) {
-        newButtonLink.setAttribute('href', `${URL_PATH}/${tableName}/new`);
+        const newButtonLink = document.getElementById('newButtonLink');
+        if (newButtonLink) {
+            newButtonLink.setAttribute('href', `${URL_PATH}/dynamic/new/${tableName}`);
+        } else {
+            console.error('El elemento newButtonLink no se encontró en el DOM.');
+            return;
+        }
+
+        const newButton = newButtonLink.querySelector('button');
+        if (newButton) {
+            newButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                window.location.href = newButtonLink.getAttribute('href');
+            });
+        } else {
+            console.error('El botón "Nuevo" no se encontró en el DOM.');
+        }
+
+        const dynamicForm = document.getElementById('dynamicForm');
+        if (dynamicForm) {
+            dynamicForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                submitForm();
+            });
+        } else {
+            console.error('El elemento dynamicForm no se encontró en el DOM.');
+        }
+
+        fetchTableData(tableName);
     } else {
-        console.error('El elemento newButtonLink no se encontró en el DOM.');
-        return; // Sal del script si newButtonLink no existe
+        console.error('El input con id "tableName" no se encontró en el DOM.');
     }
-
-    // Event listener para el botón "Nuevo"
-    const newButton = newButtonLink.querySelector('button');
-    if (newButton) {
-        newButton.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevenir comportamiento por defecto
-            window.location.href = newButtonLink.getAttribute('href');
-        });
-    } else {
-        console.error('El botón "Nuevo" no se encontró en el DOM.');
-    }
-
-    // Otros event listeners y funciones
-    const dynamicForm = document.getElementById('dynamicForm');
-    if (dynamicForm) {
-        dynamicForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            submitForm();
-        });
-    } else {
-        console.error('El elemento dynamicForm no se encontró en el DOM.');
-    }
-
-    fetchTableStructure(tableName);
-    fetchTableData(tableName);
 });
 
 async function fetchTableData(tableName) {
@@ -47,26 +47,8 @@ async function fetchTableData(tableName) {
         let responseData = await response.json();
 
         if (responseData.success) {
-            const tableBody = document.getElementById(`${tableName}TableBody`);
-            if (tableBody) {
-                tableBody.innerHTML = '';
-                responseData.result.forEach(item => {
-                    let rowHTML = '<tr>';
-                    for (let key in item) {
-                        rowHTML += `<td>${item[key]}</td>`;
-                    }
-                    rowHTML += `<td>
-                                    <a href="${URL_PATH}/${tableName}/edit/?id=${item.id}">
-                                        <button type="button">Editar</button>
-                                    </a>
-                                    <button onClick="deleteRecord('${tableName}', ${item.id})">Eliminar</button>
-                                </td>`;
-                    rowHTML += '</tr>';
-                    tableBody.insertAdjacentHTML('beforeend', rowHTML);
-                });
-            } else {
-                console.error(`El elemento ${tableName}TableBody no se encontró en el DOM.`);
-            }
+            renderTableHeaders(Object.keys(responseData.result[0])); // Renderizar los encabezados
+            renderTableData(responseData.result); // Renderizar los datos de la tabla
         } else {
             console.error('Error en la respuesta del servidor:', responseData);
         }
@@ -75,26 +57,39 @@ async function fetchTableData(tableName) {
     }
 }
 
-function deleteRecord(tableName, id) {
-    BsModal.confirm({
-        title: '¿Está seguro de eliminar este registro?',
-        onOk: async () => {
-            try {
-                let response = await fetch(`${URL_PATH}/${tableName}/delete`, {
-                    method: 'DELETE',
-                    body: JSON.stringify({ id }),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                let responseData = await response.json();
-                console.log(responseData);
-                fetchTableData(tableName);
-            } catch (error) {
-                console.error('Error al eliminar el registro:', error);
+function renderTableHeaders(columns) {
+    const tableHeaders = document.getElementById('dynamicTableHeaders');
+    if (tableHeaders) {
+        tableHeaders.innerHTML = '';
+        columns.forEach(column => {
+            tableHeaders.insertAdjacentHTML('beforeend', `<th>${column}</th>`);
+        });
+    } else {
+        console.error('El elemento dynamicTableHeaders no se encontró en el DOM.');
+    }
+}
+
+function renderTableData(data) {
+    const tableBody = document.getElementById(`${tableName}TableBody`);
+    if (tableBody) {
+        tableBody.innerHTML = '';
+        data.forEach(item => {
+            let rowHTML = '<tr>';
+            for (let key in item) {
+                rowHTML += `<td>${item[key]}</td>`;
             }
-        }
-    });
+            rowHTML += `<td>
+                            <a href="${URL_PATH}/${tableName}/edit/?id=${item.id}">
+                                <button type="button">Editar</button>
+                            </a>
+                            <button onClick="deleteRecord('${tableName}', ${item.id})">Eliminar</button>
+                        </td>`;
+            rowHTML += '</tr>';
+            tableBody.insertAdjacentHTML('beforeend', rowHTML);
+        });
+    } else {
+        console.error(`El elemento ${tableName}TableBody no se encontró en el DOM.`);
+    }
 }
 
 async function submitForm() {
@@ -126,45 +121,24 @@ async function submitForm() {
     }
 }
 
-async function fetchTableStructure(tableName) {
-    try {
-        let response = await fetch(`${URL_PATH}/Dynamic/structure/${tableName}`);
-        let responseData = await response.json();
-
-        if (responseData.success) {
-            // Generate table headers
-            const headersRow = document.getElementById('dynamicTableHeaders');
-            if (headersRow) {
-                headersRow.innerHTML = '';
-                responseData.structure.forEach(column => {
-                    headersRow.insertAdjacentHTML('beforeend', `<th>${column}</th>`);
-                });
-            } else {
-                console.error('El elemento dynamicTableHeaders no se encontró en el DOM.');
-            }
-
-            // Generate form fields
-            const form = document.getElementById('dynamicForm');
-            if (form) {
-                form.innerHTML = `<input type="hidden" name="tableName" id="tableName" value="${tableName}">`;
-                responseData.structure.forEach(column => {
-                    if (column !== 'id') { 
-                        form.insertAdjacentHTML('beforeend', `
-                            <div class="col-12 col-md-4">
-                                <label class="form-label" for="${column}">${column}</label>
-                                <input class="form-control" type="text" id="${column}" name="${column}">
-                            </div>
-                        `);
+function deleteRecord(tableName, id) {
+    BsModal.confirm({
+        title: '¿Está seguro de eliminar este registro?',
+        onOk: async () => {
+            try {
+                let response = await fetch(`${URL_PATH}/${tableName}/delete`, {
+                    method: 'DELETE',
+                    body: JSON.stringify({ id }),
+                    headers: {
+                        'Content-Type': 'application/json'
                     }
                 });
-                form.insertAdjacentHTML('beforeend', '<button type="submit" class="btn btn-primary" value="guardar">Guardar</button>');
-            } else {
-                console.error('El elemento dynamicForm no se encontró en el DOM.');
+                let responseData = await response.json();
+                console.log(responseData);
+                fetchTableData(tableName);
+            } catch (error) {
+                console.error('Error al eliminar el registro:', error);
             }
-        } else {
-            console.error('Error en la respuesta del servidor:', responseData);
         }
-    } catch (error) {
-        console.error('Error al obtener la estructura de la tabla:', error);
-    }
+    });
 }

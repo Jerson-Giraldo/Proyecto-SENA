@@ -44,18 +44,37 @@ class DynamicController extends Controller
     }
 
     public function create()
-    {
-        $res = new Result();
+{
+    $res = new Result();
+    
+    try {
+        // Obtener los datos del cuerpo de la solicitud POST
         $postData = file_get_contents('php://input');
         $body = json_decode($postData, true);
+        var_dump($body);
+        // Verificar que los datos sean un array válido
+        if (!is_array($body) || empty($body)) {
+            throw new InvalidArgumentException("Los datos proporcionados para insertar no son válidos.");
+        }
 
+        // Insertar los datos usando el modelo Orm
         $this->model->insert($body);
 
         $res->success = true;
         $res->message = "El registro fue insertado correctamente";
-
-        echo json_encode($res);
+    } catch (InvalidArgumentException $e) {
+        $res->success = false;
+        $res->message = "Error al insertar el registro: " . $e->getMessage();
+    } catch (Exception $e) {
+        $res->success = false;
+        $res->message = "Error al insertar el registro: " . $e->getMessage();
     }
+
+    // Devolver la respuesta como JSON
+    header('Content-Type: application/json');
+    echo json_encode($res);
+}
+
 
     public function update()
     {

@@ -3,7 +3,7 @@ class Router
 {
     private $controller;
     private $method;
-    private $params = []; // Añadido para capturar los parámetros
+    private $params = [];
 
     public function __construct()
     {
@@ -15,9 +15,8 @@ class Router
         $url = explode('/', URL);
         $this->controller = !empty($url[1]) ? $url[1] : 'Page';
         $this->method = !empty($url[2]) ? $url[2] : 'home';
-        $this->params = array_slice($url, 3); // Captura el resto de los parámetros de la URL
+        $this->params = array_slice($url, 3);
 
-        // Depuración
         echo "Controller: " . $this->controller . "<br>";
         echo "Method: " . $this->method . "<br>";
         echo "Params: " . implode(', ', $this->params) . "<br>";
@@ -34,15 +33,12 @@ class Router
             $controllerClass = $this->controller . 'Controller';
 
             if (class_exists($controllerClass)) {
-                // Pasar el nombre del controlador y los parámetros
-                $controller = new $controllerClass($connection, $this->params[0] ?? 'default'); // Usa el primer parámetro como el nombre de la tabla
+                $controller = new $controllerClass($connection, $this->params[0] ?? 'default');
                 $method = $this->method;
 
                 if (method_exists($controller, $method)) {
-                    // Llamar al método del controlador
                     $controller->$method();
                 } else {
-                    // Aquí es donde manejarías las rutas específicas
                     switch ($method) {
                         case 'new':
                         case 'table':    
@@ -71,4 +67,3 @@ class Router
         $this->matchRouter();
     }
 }
-
