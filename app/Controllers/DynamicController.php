@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . '/../Models/producto.php');
+require_once(__DIR__ . '/../Models/DynamicModel.php');
 
 class DynamicController extends Controller
 {
@@ -11,7 +11,7 @@ class DynamicController extends Controller
         $this->model = new Orm($tableName, $idColumn, $coneccion);
         $this->tableName = $tableName; // Asignar el nombre de la tabla a la propiedad
         // Depuración
-        echo "Table Name: " . $this->tableName . "<br>";
+        //echo "Table Name: " . $this->tableName . "<br>";
     }
 
     public function home()
@@ -28,12 +28,16 @@ class DynamicController extends Controller
     {
         $res = new Result();
         $items = $this->model->getAll();
-
+    
         $res->success = true;
         $res->result = $items;
-
+    
+        header('Content-Type: application/json');
         echo json_encode($res);
+        exit; // Asegúrate de que no se imprima nada más
     }
+    
+
 
     public function edit()
     {
