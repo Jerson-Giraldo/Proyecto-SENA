@@ -96,9 +96,19 @@ class Orm
   }
 
   public function getTableColumns()
-    {
-        $stmt = $this->db->prepare("DESCRIBE {$this->table}");
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+  {
+      $stmt = $this->db->prepare("DESCRIBE {$this->table}");
+      $stmt->execute();
+      
+      // Generar información de depuración o errores
+      $debugOutput = ""; // Inicializa con cadena vacía o algo específico si hay datos
+  
+      // Ejemplo: Capturar mensajes de error
+      while ($error = $stmt->errorInfo()) {
+          $debugOutput .= "SQLSTATE: {$error[0]} - Error code: {$error[1]} - Error message: {$error[2]}\n";
+      }
+  
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
 }

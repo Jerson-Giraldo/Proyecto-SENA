@@ -10,8 +10,7 @@ class DynamicController extends Controller
     {
         $this->model = new Orm($tableName, $idColumn, $coneccion);
         $this->tableName = $tableName; // Asignar el nombre de la tabla a la propiedad
-        // Depuración
-        //echo "Table Name: " . $this->tableName . "<br>";
+    
     }
 
     public function home()
@@ -34,7 +33,7 @@ class DynamicController extends Controller
     
         header('Content-Type: application/json');
         echo json_encode($res);
-        exit; // Asegúrate de que no se imprima nada más
+        exit; 
     }
     
 
@@ -122,26 +121,31 @@ class DynamicController extends Controller
     }
 
     public function structure()
-    {
-        $res = new Result();
+{
+    $res = new Result();
 
-        try {
-            $columns = $this->model->getTableColumns();
+    try {
+        // Obtener la estructura de la tabla
+        $columns = $this->model->getTableColumns();
 
-            if (is_array($columns)) {
-                $res->success = true;
-                $res->structure = $columns;
-            } else {
-                throw new Exception("Error al obtener la estructura de la tabla");
-            }
-        } catch (Exception $e) {
-            $res->success = false;
-            $res->message = "Error al obtener la estructura de la tabla: " . $e->getMessage();
+        if (is_array($columns) && !empty($columns)) {
+            $res->success = true;
+            $res->structure = $columns;
+        } else {
+            throw new Exception("Error al obtener la estructura de la tabla");
         }
-
-        header('Content-Type: application/json');
-        echo json_encode($res);
+    } catch (Exception $e) {
+        $res->success = false;
+        $res->message = "Error al obtener la estructura de la tabla: " . $e->getMessage();
     }
+
+    // Devolver la respuesta como JSON
+    header('Content-Type: application/json');
+    echo json_encode($res);
+}
+
+
+
 }
 
 

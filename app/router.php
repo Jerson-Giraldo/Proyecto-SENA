@@ -17,10 +17,6 @@ class Router
         $this->method = !empty($url[2]) ? $url[2] : 'home';
         $this->params = array_slice($url, 3);
 
-        echo "Controller: " . $this->controller . "<br>";
-        echo "Method: " . $this->method . "<br>";
-        echo "Params: " . implode(', ', $this->params) . "<br>";
-
         $this->controller = ucfirst($this->controller);
         $controllerFile = __DIR__ . '/Controllers/' . $this->controller . 'Controller.php';
 

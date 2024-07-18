@@ -15,3 +15,4 @@ class Controller
         require_once(__DIR__ . '/../Views/layouts/' . $layout . '.layout.php');
     }
 }
+

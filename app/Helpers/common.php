@@ -9,7 +9,7 @@ class Result {
         $this->result;
         $this->success = false;
         $this->message = '';
-        $this->structure = []; // Inicialización opcional según tu lógica
+        $this->structure = []; 
     }
 }
 /*Aqui en Helpers almacenamos las funciones que nos van a servir en toda la aplicación*/
