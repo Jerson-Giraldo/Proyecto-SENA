@@ -4,13 +4,12 @@ require_once(__DIR__ . '/../Models/DynamicModel.php');
 class DynamicController extends Controller
 {
     private $model;
-    private $tableName; // Variable para almacenar el nombre de la tabla
+    private $tableName;
 
-    public function __construct(PDO $coneccion, string $tableName, string $idColumn = 'id')
+    public function __construct(PDO $connection, string $tableName, string $idColumn = 'id')
     {
-        $this->model = new Orm($tableName, $idColumn, $coneccion);
-        $this->tableName = $tableName; // Asignar el nombre de la tabla a la propiedad
-    
+        $this->model = new DynamicModel($connection, $tableName, $idColumn);
+        $this->tableName = $tableName;
     }
 
     public function home()
@@ -26,62 +25,59 @@ class DynamicController extends Controller
     public function table()
     {
         $res = new Result();
-        $items = $this->model->getAll();
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $limit = 100;
     
-        $res->success = true;
-        $res->result = $items;
+        try {
+            $pagination = $this->model->paginate($page, $limit);
+            $res->success = true;
+            $res->result = $pagination['data'];
+            $res->page = $pagination['page'];
+            $res->limit = $pagination['limit'];
+            $res->pages = $pagination['pages'];
+            $res->rows = $pagination['rows'];
+        } catch (Exception $e) {
+            $res->success = false;
+            $res->message = "Error al obtener los datos: " . $e->getMessage();
+        }
     
         header('Content-Type: application/json');
         echo json_encode($res);
-        exit; 
-    }
-    
-
-
-    public function edit()
-    {
-        $id = $_GET['id'] ?? null;
-        $item = $this->model->getById($id);
-
-        $this->render('formNew', ['tableName' => $this->tableName, 'item' => $item], 'site');
+        exit;
     }
 
     public function create()
-{
-    $res = new Result();
-    
-    try {
-        // Obtener los datos del cuerpo de la solicitud POST
-        $postData = file_get_contents('php://input');
-        $body = json_decode($postData, true);
-        var_dump($body);
-        // Verificar que los datos sean un array válido
-        if (!is_array($body) || empty($body)) {
-            throw new InvalidArgumentException("Los datos proporcionados para insertar no son válidos.");
+    {
+        $res = new Result();
+
+        try {
+            $postData = file_get_contents('php://input');
+            $body = json_decode($postData, true);
+
+            if (!is_array($body) || empty($body)) {
+                throw new InvalidArgumentException("Los datos proporcionados para insertar no son válidos.");
+            }
+
+            $this->model->insert($body);
+
+            $res->success = true;
+            $res->message = "El registro fue insertado correctamente";
+        } catch (InvalidArgumentException $e) {
+            $res->success = false;
+            $res->message = "Error al insertar el registro: " . $e->getMessage();
+        } catch (Exception $e) {
+            $res->success = false;
+            $res->message = "Error al insertar el registro: " . $e->getMessage();
         }
 
-        // Insertar los datos usando el modelo Orm
-        $this->model->insert($body);
-
-        $res->success = true;
-        $res->message = "El registro fue insertado correctamente";
-    } catch (InvalidArgumentException $e) {
-        $res->success = false;
-        $res->message = "Error al insertar el registro: " . $e->getMessage();
-    } catch (Exception $e) {
-        $res->success = false;
-        $res->message = "Error al insertar el registro: " . $e->getMessage();
+        header('Content-Type: application/json');
+        echo json_encode($res);
     }
-
-    // Devolver la respuesta como JSON
-    header('Content-Type: application/json');
-    echo json_encode($res);
-}
-
 
     public function update()
     {
         $res = new Result();
+
         try {
             $postData = file_get_contents('php://input');
             $body = json_decode($postData, true);
@@ -120,32 +116,21 @@ class DynamicController extends Controller
         echo json_encode($res);
     }
 
-    public function structure()
+    public function getStructure()
 {
     $res = new Result();
 
     try {
-        // Obtener la estructura de la tabla
-        $columns = $this->model->getTableColumns();
-
-        if (is_array($columns) && !empty($columns)) {
-            $res->success = true;
-            $res->structure = $columns;
-        } else {
-            throw new Exception("Error al obtener la estructura de la tabla");
-        }
+        $structure = $this->model->getTableStructure();
+        $res->success = true;
+        $res->structure = $structure;
     } catch (Exception $e) {
         $res->success = false;
         $res->message = "Error al obtener la estructura de la tabla: " . $e->getMessage();
     }
 
-    // Devolver la respuesta como JSON
     header('Content-Type: application/json');
     echo json_encode($res);
+    exit();
 }
-
-
-
 }
-
-

@@ -74,41 +74,31 @@ class Orm
     $stmt->execute();
 }
 
-  public function paginate($page, $limit)
-  {
-    $offset = ($page - 1) * $limit;
-    $rows = $this->db->query("SELECT COUNT(*) FROM {$this->table}")->fetchColumn();
-    $sql = "SELECT * FROM {$this->table} LIMIT :offset, :limit";
-    $stmt = $this->db->prepare($sql);
-    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-    $stmt->execute();
-    $pages = ceil($rows / $limit);
-    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+public function paginate($page, $limit) {
+  $offset = ($page - 1) * $limit;
+  $rows = $this->db->query("SELECT COUNT(*) FROM {$this->table}")->fetchColumn();
+  $sql = "SELECT * FROM {$this->table} LIMIT :limit OFFSET :offset";
+  $stmt = $this->db->prepare($sql);
+  $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+  $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+  $stmt->execute();
+  $pages = ceil($rows / $limit);
+  $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    return [
-      'data' => $data,
-      'page' => $page,
-      'limit' => $limit,
-      'pages' => $pages,
-      'rows' => $rows
-    ];
-  }
+  return [
+    'data' => $data,
+    'page' => $page,
+    'limit' => $limit,
+    'pages' => $pages,
+    'rows' => $rows
+  ];
+}
 
-  public function getTableColumns()
-  {
-      $stmt = $this->db->prepare("DESCRIBE {$this->table}");
-      $stmt->execute();
-      
-      // Generar información de depuración o errores
-      $debugOutput = ""; // Inicializa con cadena vacía o algo específico si hay datos
-  
-      // Ejemplo: Capturar mensajes de error
-      while ($error = $stmt->errorInfo()) {
-          $debugOutput .= "SQLSTATE: {$error[0]} - Error code: {$error[1]} - Error message: {$error[2]}\n";
-      }
-  
-      return $stmt->fetchAll(PDO::FETCH_ASSOC);
-  }
+public function getTableColumns()
+    {
+        $stmt = $this->db->prepare("DESCRIBE {$this->table}");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
 
 }
